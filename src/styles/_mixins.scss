@@ -1,0 +1,19 @@
+// 이 파일은 반복되는 스타일 패턴을 "함수처럼" 묶어 놓는다. 즉, 스타일의 묶음이다.
+
+/*
+ex.)))
+
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: cemter;
+}
+이런 코드는 자주 쓰니 이렇게 함수화 해두면 편할것이다.
+
+사용할때는
+.example {
+  @include flexCenter
+}
+
+이렇게 사용하면 된다.
+*/

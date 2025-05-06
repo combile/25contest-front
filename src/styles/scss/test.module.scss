@@ -1,0 +1,11 @@
+// partial과 index.scss와 관련하여서, 실제 사용법은 이렇다.
+
+/*
+@use "/src/styles" as style;
+
+.example {
+  background-color: style.$blue-color;
+}
+
+어려울거 하나 없다. 이제 잘 써보도록 하자.
+*/
