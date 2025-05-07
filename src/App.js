@@ -4,8 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // 라우팅
 import routes from "./routes/list.js";
-import protectedRoutes from "./routes/ProtectedList.js";
-import UserValidate from "./routes/userValidate.js";
+import protectedRoutes from "./routes/protectedList.js";
+import UserValidate from "./routes/UserValidate.jsx";
 
 // 전역 스타일
 import GlobalStyle from "./styles/styledComponents/GlobalStyle.jsx";
