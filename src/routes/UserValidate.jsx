@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom";
 import axios from "axios";
 
 function UserValidate({ children }) {
-  const [isValidToken, setIsValidToken] = useState(null);
+  const [isValidToken, setIsValidToken] = useState(true);
 
   useEffect(() => {
     // const checkToken = async () => {
