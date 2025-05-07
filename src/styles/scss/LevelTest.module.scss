@@ -1,0 +1,16 @@
+@use "/src/styles" as style;
+
+.wrapper {
+  @include style.flexColCenter;
+  height: 100vh;
+  gap: 80px;
+}
+
+.textBox {
+  border: {
+    radius: 20px;
+  }
+  cursor: default;
+  padding: 12px 20px 10px 20px;
+  box-shadow: 0px 0px 10px style.$dark1-color;
+}
