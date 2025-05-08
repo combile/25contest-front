@@ -11,8 +11,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    width: 100%;
-    height: 100%;
+    width: 100dvw;
+    height: 100dvh;
     font-family: 'Noto Sans', sans-serif;
     background-color: #ffffff;
     -webkit-font-smoothing: antialiased;
