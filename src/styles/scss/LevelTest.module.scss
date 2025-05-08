@@ -1,0 +1,18 @@
+@use "/src/styles" as style;
+
+.wrapper {
+  @include style.flexColCenter;
+  height: 100dvh;
+  gap: 150px;
+}
+
+.indicatorFlexBox {
+  @include style.flexRowCenter;
+  gap: 30px;
+}
+
+.textBox {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

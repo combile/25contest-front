@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 // 라우팅
 import routes from "./routes/list.js";
@@ -13,11 +13,16 @@ import { ThemeProvider } from "styled-components";
 
 // 테마 설정 스타일 (다크모드 화이트 모드) => 이건 시간 남으면
 import theme from "./styles/styledComponents/theme.js";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [navVisible, setNavVisible] = useState(false);
+  const [footerVisible, setFooterVisible] = useState(false);
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
+      {navVisible ? <nav>this is nav</nav> : null}
       <BrowserRouter>
         <Routes>
           {/* 공개 라우트 */}
@@ -36,6 +41,7 @@ function App() {
           ))}
         </Routes>
       </BrowserRouter>
+      {footerVisible ? <footer>this is footer</footer> : null}
     </ThemeProvider>
   );
 }
