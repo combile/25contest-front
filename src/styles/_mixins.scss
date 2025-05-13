@@ -17,3 +17,17 @@ ex.)))
 
 이렇게 사용하면 된다.
 */
+
+@mixin flexColCenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flexRowCenter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}

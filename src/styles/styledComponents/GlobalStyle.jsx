@@ -11,11 +11,10 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    width: 100%;
-    height: 100%;
+    width: 100dvw;
+    height: 100dvh;
     font-family: 'Noto Sans', sans-serif;
     background-color: #ffffff;
-    line-height: 1.5; // 줄 간격
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
