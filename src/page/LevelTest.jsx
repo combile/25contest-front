@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import scss from "../styles/scss/LevelTest.module.scss";
 import * as colors from "../component/colorConstants";
+import { useNavigate } from "react-router-dom";
+
+import { useSelector } from "react-redux";
+import { addCnt } from "../store";
+import { useDispatch } from "react-redux";
+import CircularProgress from "../component/CircularProgress";
 
 const LevelTest = () => {
-  const ProgressBar = styled.div``;
-
   const Line = styled.div`
     width: 100%;
     height: 1px;
@@ -54,6 +58,25 @@ const LevelTest = () => {
     cursor: pointer;
   `;
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  let counter = useSelector((state) => {
+    return state.levelTestProgressCounter;
+  });
+
+  useEffect(() => {
+    let delay;
+    if (counter.cnt === 5) {
+      delay = setTimeout(() => {
+        navigate("/dummy", { replace: true });
+      }, 5000);
+    }
+    return () => {
+      clearTimeout(delay);
+    };
+  }, [counter, navigate]);
+
   return (
     <div className={scss.wrapper}>
       <div className={scss.indicatorFlexBox}>
@@ -62,14 +85,14 @@ const LevelTest = () => {
           <Line />
           <Question>유사한 뜻이 아닌 단어는?</Question>
         </div>
-        <ProgressBar>대충 프로그레스 바</ProgressBar>
+        <CircularProgress />
       </div>
       <CurvedLine />
       <SelectionBody>
-        <SelectButton>선택지1</SelectButton>
-        <SelectButton>선택지2</SelectButton>
-        <SelectButton>선택지3</SelectButton>
-        <SelectButton>선택지4</SelectButton>
+        <SelectButton onClick={() => dispatch(addCnt())}>선택지1</SelectButton>
+        <SelectButton onClick={() => dispatch(addCnt())}>선택지2</SelectButton>
+        <SelectButton onClick={() => dispatch(addCnt())}>선택지3</SelectButton>
+        <SelectButton onClick={() => dispatch(addCnt())}>선택지4</SelectButton>
       </SelectionBody>
     </div>
   );
