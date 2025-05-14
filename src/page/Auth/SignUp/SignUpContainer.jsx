@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import InfoInputPage from './SignUp_Info';
 import PasswordPage from './SignUp_Password';
+import DonePage from './SignUp_Done';
 
 const SignUpContainer = () => {
   useEffect(() => {
@@ -28,7 +29,8 @@ const SignUpContainer = () => {
 
   const steps = [
     <InfoInputPage onSubmit={handleNext} key="info" />,
-    <PasswordPage onSubmit={handleNext} onBack={handleBack} key="password" />
+    <PasswordPage onSubmit={handleNext} onBack={handleBack} key="password" />,
+    <DonePage key="done" />
   ];
   
   return steps[step];
