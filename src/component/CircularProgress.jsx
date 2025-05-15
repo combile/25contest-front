@@ -9,9 +9,8 @@ const SIZE = 120;
 const STROKE_WIDTH = 10;
 const RADIUS = (SIZE - STROKE_WIDTH) / 2;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
-const BLUE = "#336af8";
 
-const Wrapper = styled.div`
+const CircularWrapper = styled.div`
   width: ${SIZE}px;
   height: ${SIZE}px;
   position: relative;
@@ -38,13 +37,11 @@ const CircleProgress = styled.circle`
   transform-origin: center;
 `;
 
-const ProgressText = styled.div`
+const Symbol = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-weight: bold;
-  font-size: 1.1rem;
 `;
 
 const CircularProgress = () => {
@@ -55,7 +52,7 @@ const CircularProgress = () => {
   const dashOffset = CIRCUMFERENCE * (1 - progress);
 
   return (
-    <Wrapper>
+    <CircularWrapper>
       <StyledSVG width={SIZE} height={SIZE}>
         <CircleBackground r={RADIUS} cx={SIZE / 2} cy={SIZE / 2} />
         <svg width={SIZE} height={SIZE}>
@@ -67,7 +64,7 @@ const CircularProgress = () => {
               x2="100%"
               y2="0%"
             >
-              <stop offset="0%" stopColor="#fff" />
+              <stop offset="0%" stopColor={dark0Color} />
               <stop offset="50%" stopColor="#6c96ff" />
               <stop offset="100%" stopColor={blueColor} />
             </linearGradient>
@@ -85,10 +82,10 @@ const CircularProgress = () => {
           />
         </svg>
       </StyledSVG>
-      <ProgressText>
+      <Symbol>
         <BlueFlame />
-      </ProgressText>
-    </Wrapper>
+      </Symbol>
+    </CircularWrapper>
   );
 };
 
