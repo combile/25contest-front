@@ -5,11 +5,11 @@ import * as colors from "../component/colorConstants.js";
 import LockedLevelTestIndicator from "../component/LockedLevelTestIndicator.jsx";
 import LevelTestIndicator from "../component/LevelTestIndicator.jsx";
 
-const LevelCheck = () => {
-  const BlueText = styled.span`
-    color: ${colors.blueColor};
-  `;
+const BlueText = styled.span`
+  color: ${colors.blueColor};
+`;
 
+const LevelCheck = () => {
   const username = "아무개";
   const [testAvailability, setTestAvailability] = useState(true);
 
