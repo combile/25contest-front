@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import React from 'react';
 import styled from 'styled-components';
 import '../../App.css'
@@ -124,6 +125,16 @@ const SocialButton = styled.div`
 
 const LoginPage = ({ email, password, setEmail, setPassword, handleLogin }) => {
   const [remember, setRemember] = React.useState(false);
+  useEffect(() => {
+    const setVh = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+  
+    setVh();
+    window.addEventListener('resize', setVh);
+    return () => window.removeEventListener('resize', setVh);
+  }, []);
 
   return (
     <FormWrapper onSubmit={handleLogin}>

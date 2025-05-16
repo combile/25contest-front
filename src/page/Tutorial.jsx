@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react'; // useEffect 순서 맞추기
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import "../App.css"
 
@@ -6,14 +7,24 @@ import tutorial_1 from '../svg/Tutorial/tutorial_1.svg';
 import tutorial_2 from '../svg/Tutorial/tutorial_2.svg';
 import tutorial_3 from '../svg/Tutorial/tutorial_3.svg';
 
+
+function setScreenSize() {
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
+}
+
+window.addEventListener('resize', () => setScreenSize());
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   width: 100%;
   overflow: hidden;
   background-color: white;
   position: relative;
+  opacity: ${props => (props.$visible ? 1 : 0)};
+  transition: opacity 0.8s ease-in-out;
 `;
 
 const PaginationContainer = styled.div`
@@ -37,7 +48,7 @@ const SlidesContainer = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  transition: transform 0.3s ease-out;
+  transition: transform 0.5s ease-in-out;
   transform: translateX(-${props => props.currentPage * 100}%);
 `;
 
@@ -47,11 +58,7 @@ const Slide = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const Subtitle = styled.p`
-  font-weight: bold;
-`;
+`
 
 const ContentContainer = styled.div`
   text-align: center;
@@ -59,7 +66,7 @@ const ContentContainer = styled.div`
 `;
 
 const SlideNumber = styled.h1`
-  font-family: "SF_Pro_Display";
+  font-family: "SF_Pro_Display_Bold";
   font-size: 36px;
   font-weight: bold;
   color: #336AF8;
@@ -74,30 +81,65 @@ const SlideTitle = styled.h2`
   line-height: 1.2;
 `;
 
-const WaveBackground = styled.div`
+const Subtitle = styled.p`
+  font-family: "SF_Pro_Display_Bold";
+  font-weight: bold;
+`;
+
+const Background = styled.div`
   position: absolute;
   width: 871px;
   height: 982px;
-  left: -251px;
-  top: 226px;
+  top: 720px;
+  left: 50%;
+  transform: translate(-50%, -50%);
   background-color: #92B0FF;
   border-radius: 50%;
-  z-index: 1;
+  z-index: 0;
 `;
 
-const StyledSlideImage = styled.img`
-  width: 316px;
+const SlideImage = styled.img`
+  width: ${props => props.$width || '480px'};
   height: 684px;
   margin-top: 32px;
   border-radius: 30px;
+  z-index: 1;
+  top: 50px;
+  position: relative;
+`;
+
+const StartPopup = styled.div`
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translate(-50%, 20px);
+  background-color: #336AF8;
+  color: white;
+  padding: 16px 24px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 500;
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  opacity: ${props => (props.$visible ? 1 : 0)};
+  transform: ${props => props.$visible ? 'translate(-50%, 0)' : 'translate(-50%, 20px)'};
 `;
 
 const SlideIndicator = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [startX, setStartX] = useState(null);
   const [isSwipeActive, setIsSwipeActive] = useState(false);
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
+
   const slidesContainerRef = useRef(null);
-  
+
+  const navigate = useNavigate();
+  const handleAuth = () => {
+    navigate("/Auth");
+  }
+
   const slides = [
     {
       number: '1',
@@ -118,7 +160,6 @@ const SlideIndicator = () => {
       image: tutorial_3,
     }
   ];
-  
 
   const handleTouchStart = (e) => {
     setStartX(e.touches[0].clientX);
@@ -154,8 +195,25 @@ const SlideIndicator = () => {
     setIsSwipeActive(false);
   };
 
+  useEffect(() => {
+    if (currentPage === 2) {
+      setPopupVisible(true);
+    } else {
+      setPopupVisible(false);
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    const showTimer = setTimeout(() => {
+      setVisible(true);
+    }, 10); // 자연스럽게 나타나도록 지연
+    return () => clearTimeout(showTimer);
+  }, []);
+
   return (
-    <Container>
+    <Container $visible={visible}>
+      <Background />
+  
       <PaginationContainer>
         {slides.map((_, index) => (
           <PaginationDot 
@@ -165,7 +223,7 @@ const SlideIndicator = () => {
           />
         ))}
       </PaginationContainer>
-      
+  
       <SlidesContainer
         ref={slidesContainerRef}
         currentPage={currentPage}
@@ -182,13 +240,22 @@ const SlideIndicator = () => {
                 <Subtitle>{slide.subtitle}</Subtitle>
               </SlideTitle>
             </ContentContainer>
-            <StyledSlideImage src={slide.image} alt={`tutorial_${slide.number}`} />
+            <SlideImage
+              src={slide.image}
+              alt={`tutorial_${slide.number}`}
+              $width={index === 0 || index === 2 ? '340px' : '480px'}
+            />
           </Slide>
         ))}
       </SlidesContainer>
-      <WaveBackground />
+  
+      {currentPage === 2 && (
+        <StartPopup $visible={popupVisible} onClick={() => handleAuth()}>
+          시작하러 가기
+        </StartPopup>
+      )}
     </Container>
-  );
+  );  
 };
 
 export default SlideIndicator;

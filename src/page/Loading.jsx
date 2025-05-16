@@ -1,18 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useEffect,useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import "../App.css";
 
 import { ReactComponent as Logo } from "../logo.svg";
 import Loading_1 from '../svg/Tutorial/Loading_1.svg';
 import Loading_2 from '../svg/Tutorial/Loading_2.svg';
 
+function setScreenSize() {
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty("--vh", `${vh}px`);
+}
+
+window.addEventListener('resize', () => setScreenSize());
 
 const Container = styled.div`
   position: relative;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   width: 100%;
   overflow: hidden;
   background: linear-gradient(180deg, #81A4FF 0%, #2144A0 83.65%, #1E3E92 100%);
+  opacity: ${props => (props.$visible ? 1 : 0)};
+  transition: opacity 0.8s ease-in-out;
 `;
 
 const ContentWrapper = styled.div`
@@ -33,10 +44,10 @@ const Title = styled.div`
 `;
 
 const Subtitle = styled.div`
-  margin-top: -20px;
+  margin-top: -15px;
   font-family: 'SF_Pro_Display_Bold';
   font-weight: bold;
-  font-size: 45px;
+  font-size: 32px;
 `;
 
 const LogoBox = styled.div`
@@ -68,7 +79,6 @@ const BackgroundImage = styled.div `
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-
 `
 
 const PhoneImage = styled.div`
@@ -97,8 +107,27 @@ const Description = styled.div`
 `;
 
 const SlideIndicator = () => {
+  const navigate = useNavigate();
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const showTimer = setTimeout(() => {
+      setVisible(true);
+    }, 10);
+    const fadeOutTimer = setTimeout(() => {
+      setVisible(false);
+    }, 1800);
+    const redirectTimer = setTimeout(() => {
+      navigate('/tutorial');
+    }, 2500);
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(fadeOutTimer);
+      clearTimeout(redirectTimer);
+    };
+  }, [navigate]);
+
   return (
-    <Container>
+    <Container $visible={visible}>
       <ContentWrapper>
         <Title>바쁜 당신을 위한</Title>
         <Subtitle>빠른 소식</Subtitle>
