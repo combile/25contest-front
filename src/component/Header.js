@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { ReactComponent as Search } from "../svg/search.svg";
 
+import * as colors from "./colorConstants.js";
+
 import '../App.css'
 
 const HeaderContainer = styled.header`
@@ -13,7 +15,7 @@ const HeaderContainer = styled.header`
   display: flex;
   justify-content: center; 
   align-items: center;
-  background-color: #ffffff;
+  background-color: ${colors.whiteColor};
   height: 80px;
 `;
 
@@ -33,13 +35,13 @@ const LogoText = styled.h1`
   text-align: center;
   letter-spacing: -0.02em;
 
-  color: #336AF8;
+  color: ${colors.blueColor};
 `;
 
 const SearchContainer = styled.div`
   display: flex;
   align-items: center;
-  background-color: #f3f4f6;
+  background-color: ${colors.grayColor};
   padding: 6px 12px;
   border-radius: 999px;
   width: 141px;
@@ -55,7 +57,7 @@ const SearchInput = styled.input`
   color: #111827;
 
   &::placeholder {
-    color: #9ca3af;
+    color: ${colors.dark1Color};
   }
 
   &:focus {
@@ -73,7 +75,7 @@ const Line = styled.div`
   left: 50%;
   transform: translateX(-50%);
   width: 317px;
-  border-top: 1px solid #CDDAFE;
+  border-top: 1px solid ${colors.lightBlueColor};
   bottom: 0;
 `;
 
