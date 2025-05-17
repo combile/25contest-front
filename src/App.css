@@ -12,3 +12,8 @@
   font-family: 'SF_Pro_Display_Bold';
   src: url('./styles/fonts/sf-pro-display-bold.woff2') format('woff2'),
 }
+
+@font-face {
+  font-family: 'Media_Sans_Bold';
+  src: url('./styles/fonts/mediasans-bold.woff2') format('woff2');
+}
