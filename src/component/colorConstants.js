@@ -1,4 +1,5 @@
 export const blueColor = "#336af8";
+export const lightBlueColor = "#CDDAFE"
 export const redColor = "#eb3f56";
 export const greenColor = "#35c75a";
 export const dark5Color = "#000000";
@@ -7,3 +8,5 @@ export const dark3Color = "#808080";
 export const dark2Color = "#8d8d8d";
 export const dark1Color = "#acacac";
 export const dark0Color = "#e6e6e6";
+export const grayColor = "#f2f2f2"
+export const whiteColor = "#ffffff"
