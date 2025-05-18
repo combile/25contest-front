@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
+import Header from "../component/Header"
 
 function UserValidate({ children }) {
   const [isValidToken, setIsValidToken] = useState(true);
@@ -37,7 +38,12 @@ function UserValidate({ children }) {
     return <Navigate to="/login" replace />;
   }
 
-  return children;
+  return (
+    <>
+      <Header/>
+      {children}
+    </>
+  );
 }
 
 export default UserValidate;
