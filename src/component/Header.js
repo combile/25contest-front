@@ -26,7 +26,7 @@ const SearchInput = styled.input`
   width: 100%;
   text-align: center;
   font-size: 8px;
-  color: #111827;
+  color: ${colors.dark3Color};
 
   &::placeholder {
     color: ${colors.dark1Color};
