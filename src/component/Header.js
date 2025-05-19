@@ -6,25 +6,7 @@ import * as colors from "./colorConstants.js";
 
 import '../styles/styledComponents/GlobalStyle.jsx'
 import '../App.css'
-
-const HeaderContainer = styled.header`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: center; 
-  align-items: center;
-  background-color: ${colors.whiteColor};
-  height: 80px;
-`;
-
-const CenterSection = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 40px;
-`;
+import scss from '../styles/scss/Header.module.scss'
 
 const LogoText = styled.h1`
   width: 131px;
@@ -36,16 +18,6 @@ const LogoText = styled.h1`
   text-align: center;
   letter-spacing: -0.02em;
   color: ${colors.blueColor};
-`;
-
-const SearchContainer = styled.div`
-  display: flex;
-  align-items: center;
-  background-color: ${colors.grayColor};
-  padding: 6px 12px;
-  border-radius: 999px;
-  width: 141px;
-  height: 32px;
 `;
 
 const SearchInput = styled.input`
@@ -81,15 +53,15 @@ const Line = styled.div`
 
 export default function Header() {
   return (
-    <HeaderContainer>
-    <CenterSection>
-      <LogoText>NewsFit</LogoText>
-      <SearchContainer>
-        <SearchInput placeholder="찾으시는 뉴스가 있으신가요?" />
-        <SearchIcon />
-      </SearchContainer>
-    </CenterSection>
-    <Line />
-    </HeaderContainer>
+    <div className={scss.wrapper}>
+      <div className={scss.CenterSection}>
+        <LogoText>NewsFit</LogoText>
+        <div className={scss.SearchContainer}>
+          <SearchInput placeholder="찾으시는 뉴스가 있으신가요?" />
+          <SearchIcon />
+        </div>
+      </div>
+      <Line />
+    </div>
   );
 }
