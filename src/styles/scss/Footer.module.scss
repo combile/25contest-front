@@ -1,0 +1,16 @@
+@use "/src/styles" as style;
+
+.wrapper {
+  @include style.flexRowCenter;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid #ddd;
+  background-color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
+}

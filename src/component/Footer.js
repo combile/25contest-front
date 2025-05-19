@@ -2,24 +2,12 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import '../App.css'
+import scss from '../styles/scss/Footer.module.scss'
 import * as colors from "./colorConstants.js";
 
 import { ReactComponent as TrendIcon } from '../svg/Trend.svg';
 import { ReactComponent as HomeIcon } from '../svg/Main.svg';
 import { ReactComponent as BookmarkIcon } from '../svg/Bookmark.svg';
-
-const FooterWrapper = styled.footer`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 12px 0;
-  border-top: 1px solid #ddd;
-  background-color: white;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 100;
-`;
 
 const FooterItem = styled.div`
   display: flex;
@@ -74,7 +62,7 @@ const Footer = () => {
   };
 
   return (
-    <FooterWrapper>
+    <div className={scss.wrapper}>
       <FooterItem active={active === 'trend'} onClick={() => handleClick('trend')}>
         <TrendIconStyled active={active === 'trend'} />
         <Label active={active === 'trend'}>트렌드</Label>
@@ -87,7 +75,7 @@ const Footer = () => {
         <BookmarkIconStyled active={active === 'bookmark'} />
         <Label active={active === 'bookmark'}>북마크</Label>
       </FooterItem>
-    </FooterWrapper>
+    </div>
   );
 };
 
