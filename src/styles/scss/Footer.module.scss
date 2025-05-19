@@ -2,12 +2,9 @@
 
 .wrapper {
   @include style.flexRowCenter;
-  display: flex;
-  flex-direction: row;
   justify-content: space-around;
-  align-items: center;
   padding: 12px 0;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid style.$dark0-color;;
   background-color: white;
   position: fixed;
   bottom: 0;
