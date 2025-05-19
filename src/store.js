@@ -12,10 +12,46 @@ const levelTestProgressCounter = createSlice({
   },
 });
 
+const navIsVisible = createSlice({
+  name: "navIsVisible",
+  initialState: {
+    visible: true,
+  },
+  reducers: {
+    toggleNavVisible(state, payload) {
+      if (payload === "true") {
+        state.visible = true;
+      } else {
+        state.visible = false;
+      }
+    },
+  },
+});
+
+const footerIsVisible = createSlice({
+  name: "footerIsVisible",
+  initialState: {
+    visible: true,
+  },
+  reducers: {
+    toggleFooterVisible(state, payload) {
+      if (payload === "true") {
+        state.visible = true;
+      } else {
+        state.visible = false;
+      }
+    },
+  },
+});
+
 export let { addCnt } = levelTestProgressCounter.actions;
+export let { toggleNavVisible } = navIsVisible.actions;
+export let { toggleFooterVisible } = footerIsVisible.actions;
 
 export default configureStore({
   reducer: {
     levelTestProgressCounter: levelTestProgressCounter.reducer,
+    navIsVisible: navIsVisible.reducer,
+    footerIsVisible: footerIsVisible.reducer,
   },
 });

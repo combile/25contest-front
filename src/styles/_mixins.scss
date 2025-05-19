@@ -18,12 +18,6 @@ ex.)))
 이렇게 사용하면 된다.
 */
 
-@mixin flexCenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 @mixin flexColCenter {
   display: flex;
   flex-direction: column;
@@ -35,5 +29,19 @@ ex.)))
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
+}
+
+@mixin flexRowSpaceBetween {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flexColSpaceBetween {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }

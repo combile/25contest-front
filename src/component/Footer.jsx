@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from "react";
+import styled from "styled-components";
 
-import '../App.css'
-import scss from '../styles/scss/Footer.module.scss'
+import "../App.css";
+import scss from "../styles/scss/Footer.module.scss";
 import * as colors from "./colorConstants.js";
 
-import { ReactComponent as TrendIcon } from '../svg/Trend.svg';
-import { ReactComponent as HomeIcon } from '../svg/Main.svg';
-import { ReactComponent as BookmarkIcon } from '../svg/Bookmark.svg';
+import { ReactComponent as TrendIcon } from "../svg/Trend.svg";
+import { ReactComponent as HomeIcon } from "../svg/Main.svg";
+import { ReactComponent as BookmarkIcon } from "../svg/Bookmark.svg";
 
 const FooterItem = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const FooterItem = styled.div`
   align-items: center;
   color: ${(props) => (props.active ? colors.blueColor : colors.dark1Color)};
 
-  -webkit-tap-highlight-color: transparent; 
+  -webkit-tap-highlight-color: transparent;
   user-select: none;
 `;
 
@@ -54,26 +54,35 @@ const BookmarkIconStyled = styled(BookmarkIcon)`
 `;
 
 const Footer = () => {
-  const [active, setActive] = useState('main');
+  const [active, setActive] = useState("main");
 
   const handleClick = (tab) => {
     setActive(tab);
-    alert('미구현 기능입니다.');
+    alert("미구현 기능입니다.");
   };
 
   return (
     <div className={scss.wrapper}>
-      <FooterItem active={active === 'trend'} onClick={() => handleClick('trend')}>
-        <TrendIconStyled active={active === 'trend'} />
-        <Label active={active === 'trend'}>트렌드</Label>
+      <FooterItem
+        active={active === "trend"}
+        onClick={() => handleClick("trend")}
+      >
+        <TrendIconStyled active={active === "trend"} />
+        <Label active={active === "trend"}>트렌드</Label>
       </FooterItem>
-      <FooterItem active={active === 'main'} onClick={() => handleClick('main')}>
-        <HomeIconStyled active={active === 'main'} />
-        <Label active={active === 'main'}>메인</Label>
+      <FooterItem
+        active={active === "main"}
+        onClick={() => handleClick("main")}
+      >
+        <HomeIconStyled active={active === "main"} />
+        <Label active={active === "main"}>메인</Label>
       </FooterItem>
-      <FooterItem active={active === 'bookmark'} onClick={() => handleClick('bookmark')}>
-        <BookmarkIconStyled active={active === 'bookmark'} />
-        <Label active={active === 'bookmark'}>북마크</Label>
+      <FooterItem
+        active={active === "bookmark"}
+        onClick={() => handleClick("bookmark")}
+      >
+        <BookmarkIconStyled active={active === "bookmark"} />
+        <Label active={active === "bookmark"}>북마크</Label>
       </FooterItem>
     </div>
   );

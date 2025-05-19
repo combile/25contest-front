@@ -4,11 +4,20 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
-import Header from "../component/Header"
-import Footer from '../component/Footer'
+import Header from "../component/Header";
+import Footer from "../component/Footer";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function UserValidate({ children }) {
   const [isValidToken, setIsValidToken] = useState(true);
+
+  const navIsVisible = useSelector((state) => {
+    return state.navIsVisible;
+  });
+  const footerIsVisible = useSelector((state) => {
+    return state.footerIsVisible;
+  });
 
   useEffect(() => {
     // const checkToken = async () => {
@@ -41,9 +50,9 @@ function UserValidate({ children }) {
 
   return (
     <>
-      <Header/>
+      {navIsVisible.visible ? <Header /> : null}
       {children}
-      <Footer/>
+      {footerIsVisible.visible ? <Footer /> : null}
     </>
   );
 }

@@ -5,7 +5,7 @@ import * as colors from "../component/colorConstants";
 import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
-import { addCnt } from "../store";
+import { addCnt, toggleFooterVisible, toggleNavVisible } from "../store";
 import { useDispatch } from "react-redux";
 import CircularProgress from "../component/CircularProgress";
 
@@ -62,8 +62,10 @@ const LevelTest = () => {
     let delay;
     if (counter.cnt === 5) {
       delay = setTimeout(() => {
+        dispatch(toggleFooterVisible("true"));
+        dispatch(toggleNavVisible("true"));
         navigate("/dummy", { replace: true });
-      }, 5000);
+      }, 2000);
     }
     return () => {
       clearTimeout(delay);

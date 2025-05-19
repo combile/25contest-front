@@ -1,0 +1,101 @@
+@use "/src/styles" as style;
+
+.wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.wrapper {
+  position: relative;
+
+  @include style.flexColCenter;
+  height: 100dvh;
+
+  .scrollWrapper {
+    flex: 1;
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+
+    padding: 20px 0px 20px 0px;
+    line-height: 1.4;
+
+    margin: {
+      top: 80px;
+      bottom: 76px;
+    }
+
+    .headerWrapper {
+      @include style.flexColCenter;
+      gap: 8px;
+
+      .tagWrapper {
+        @include style.flexRowCenter;
+        gap: 10px;
+      }
+    }
+
+    .navWrapper {
+      @include style.flexColCenter;
+      gap: 3px;
+      margin: {
+        top: 10px;
+        bottom: 50px;
+      }
+
+      .additionalInfoWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90dvw;
+
+        .leftMeta {
+          display: flex;
+          gap: 10px;
+          font-size: 14px;
+          color: style.$dark1-color;
+        }
+
+        .rightMeta {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-size: 14px;
+          color: style.$dark1-color;
+        }
+      }
+    }
+
+    .contentWrapper {
+      @include style.flexColCenter;
+      width: 90dvw;
+      white-space: pre-line;
+
+      img {
+        margin: 20px;
+      }
+    }
+
+    .bookMarkBtnWrapper {
+      @include style.flexRowCenter;
+      margin: {
+        top: 20px;
+        bottom: 40px;
+      }
+
+      .bookMarkBtn {
+        @include style.flexColCenter;
+        border-radius: 50%;
+        box-shadow: 0px 0px 4px style.$dark1-color;
+        width: 60px;
+        height: 60px;
+        cursor: pointer;
+
+        span {
+          font-size: 12px;
+          font-weight: bold;
+          color: style.$dark2-color;
+        }
+      }
+    }
+  }
+}
