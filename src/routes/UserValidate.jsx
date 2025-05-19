@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../component/Header"
+import Footer from '../component/Footer'
 
 function UserValidate({ children }) {
   const [isValidToken, setIsValidToken] = useState(true);
@@ -42,6 +43,7 @@ function UserValidate({ children }) {
     <>
       <Header/>
       {children}
+      <Footer/>
     </>
   );
 }
