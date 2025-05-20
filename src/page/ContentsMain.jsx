@@ -19,17 +19,18 @@ const TextBanner = styled.div`
   padding: 16px 20px;
   letter-spacing: -0.02em;
   margin-top: -20px;
-  color: #363636;
+  color: ${colors.dark4Color};
   padding-left: 28px;
+  word-break: keep-all;
 `;
 const DateText = styled.div`
   font-size: 14px;
-  color: #999;
+  color: ${colors.dark3Color};
   font-weight: 500;
   padding: 0 20px;
   margin-top: 30px;
   padding-left: 28px;
-  overflow: hidden;
+  word-break: keep-all;
 `;
 
 const Line = styled.div`

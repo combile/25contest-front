@@ -44,6 +44,7 @@ const LeftColumn = styled.div`
   flex-direction: column;
   flex-grow: 1;
   padding-right: 30px;
+  word-break: keep-all;
 `;
 
 const RightColumn = styled.div`

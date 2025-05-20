@@ -16,9 +16,9 @@
 }
 
 .bannerIcon {
-  @include style.flexCenter;
-  width: 64px;
-  height: 64px;
+  @include style.flexColCenter;
+  min-width: 64px;
+  min-height: 64px;
   border-radius: 16px;
   background-color: style.$blue-color;
   margin-right: 16px;

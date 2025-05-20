@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 const TextBox = styled.div`
   display: flex;
   flex-direction: column;
+  word-break: keep-all;
 `;
 
 const SubText = styled.span`
