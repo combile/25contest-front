@@ -21,12 +21,8 @@ const navIsVisible = createSlice({
     visible: true,
   },
   reducers: {
-    toggleNavVisible(state, payload) {
-      if (payload === "true") {
-        state.visible = true;
-      } else {
-        state.visible = false;
-      }
+    toggleNavVisible(state, action) {
+      state.visible = action.payload;
     },
   },
 });
@@ -37,12 +33,8 @@ const footerIsVisible = createSlice({
     visible: true,
   },
   reducers: {
-    toggleFooterVisible(state, payload) {
-      if (payload === "true") {
-        state.visible = true;
-      } else {
-        state.visible = false;
-      }
+    toggleFooterVisible(state, action) {
+      state.visible = action.payload;
     },
   },
 });

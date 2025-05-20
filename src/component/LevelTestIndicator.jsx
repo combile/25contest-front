@@ -60,8 +60,8 @@ const LevelTestIndicator = () => {
       <GoToLevelTest
         onClick={() => {
           goToLevelTest();
-          dispatch(toggleNavVisible("false"));
-          dispatch(toggleFooterVisible("false"));
+          dispatch(toggleNavVisible(false));
+          dispatch(toggleFooterVisible(false));
         }}
       >
         시험보러가기

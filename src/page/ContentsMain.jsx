@@ -62,6 +62,7 @@ const ContentsMain = () => {
           <Line />
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, i) => (
             <NewsCard
+              key={_}
               id="news-777"
               title="속보, 우은식 지금 과제 하나도 안함 ㅋㅋ"
               tag1="시사"

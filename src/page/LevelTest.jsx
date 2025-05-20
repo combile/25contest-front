@@ -14,6 +14,8 @@ import {
 import { useDispatch } from "react-redux";
 import CircularProgress from "../component/CircularProgress";
 
+const SAMPLE_VOCA = ["선택지1", "선택지2", "선택지3", "선택지4"];
+
 const Line = styled.div`
   width: 100%;
   height: 1px;
@@ -44,7 +46,7 @@ const CurvedLine = styled.div`
   border-radius: 40px;
 `;
 
-const SelectButton = styled.li`
+const SelectButton = styled.button`
   border-radius: 15px;
   box-shadow: 0px 0px 4px ${colors.dark1Color};
   width: 300px;
@@ -53,6 +55,15 @@ const SelectButton = styled.li`
   margin: 10px;
   font-size: 1.3rem;
   cursor: pointer;
+
+  transition: 0.2s;
+
+  &:disabled {
+    background-color: ${colors.grayColor};
+    color: ${colors.dark1Color};
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;
 
 const LevelTest = () => {
@@ -62,22 +73,33 @@ const LevelTest = () => {
   let counter = useSelector((state) => {
     return state.levelTestProgressCounter;
   });
+  const footerVisible = useSelector((state) => state.footerIsVisible.visible);
+  const navVisible = useSelector((state) => state.navIsVisible.visible);
 
   useEffect(() => {
-    let delay;
-    if (counter.cnt === 5) {
-      delay = setTimeout(() => {
-        dispatch(toggleFooterVisible("true"));
-        dispatch(toggleNavVisible("true"));
-        dispatch(initializeCnt()); // 재진입을 고려하여 카운터 초기화
+    let delayTimer;
 
-        navigate("/main", { replace: true });
-      }, 2000);
+    if (counter.cnt === 5) {
+      delayTimer = setTimeout(() => {
+        dispatch(initializeCnt());
+        dispatch(toggleFooterVisible(true));
+        dispatch(toggleNavVisible(true));
+      }, 1000);
     }
+
     return () => {
-      clearTimeout(delay);
+      clearTimeout(delayTimer);
     };
-  }, [counter, navigate]);
+  }, [counter, dispatch]);
+
+  const shouldNavigate = footerVisible && navVisible && counter.cnt === 5;
+
+  useEffect(() => {
+    console.log("???");
+    if (shouldNavigate) {
+      navigate("/main", { replace: true });
+    }
+  }, [shouldNavigate, navigate]);
 
   return (
     <div className={scss.wrapper}>
@@ -90,12 +112,17 @@ const LevelTest = () => {
         <CircularProgress />
       </div>
       <CurvedLine />
-      <ul className={scss.selectionWrapper}>
-        <SelectButton onClick={() => dispatch(addCnt())}>선택지1</SelectButton>
-        <SelectButton onClick={() => dispatch(addCnt())}>선택지2</SelectButton>
-        <SelectButton onClick={() => dispatch(addCnt())}>선택지3</SelectButton>
-        <SelectButton onClick={() => dispatch(addCnt())}>선택지4</SelectButton>
-      </ul>
+      <div className={scss.selectionWrapper}>
+        {SAMPLE_VOCA.map((label, i) => (
+          <SelectButton
+            key={i}
+            disabled={counter.cnt >= 5}
+            onClick={() => dispatch(addCnt())}
+          >
+            {label}
+          </SelectButton>
+        ))}
+      </div>
     </div>
   );
 };

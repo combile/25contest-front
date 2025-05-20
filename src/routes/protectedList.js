@@ -12,6 +12,8 @@ const protectedRoutes = [
   { path: "/article", element: <ArticleDetail /> },
   { path: "/dummy", element: <div>Dummy</div> },
   { path: "/main", element: <ContentsMain /> },
+  { path: "/trend", element: <div>트렌트페이지</div> },
+  { path: "/bookmark", element: <div>북마크페이지</div> },
 ];
 
 export default protectedRoutes;
