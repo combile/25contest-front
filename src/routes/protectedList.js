@@ -3,6 +3,7 @@
 import ArticleDetail from "../page/ArticleDetail";
 import LevelCheck from "../page/LevelCheck";
 import LevelTest from "../page/LevelTest";
+import ContentsMain from "../page/ContentsMain";
 
 const protectedRoutes = [
   { path: "/level-check", element: <LevelCheck /> },
@@ -10,6 +11,7 @@ const protectedRoutes = [
   // { path: "/articles/:uuid", element: <ArticleDetail /> }, // api 연결시 활용
   { path: "/articles", element: <ArticleDetail /> },
   { path: "/dummy", element: <div>Dummy</div> },
+  { path: "/main", element: <ContentsMain/>},
 ];
 
 export default protectedRoutes;
