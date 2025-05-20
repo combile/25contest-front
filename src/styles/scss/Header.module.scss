@@ -9,16 +9,15 @@
   z-index: 1000;
   background-color: white;
   height: 80px;
-};
+}
 
 .CenterSection {
-  @include style.flexCenter;
+  @include style.flexRowCenter;
   gap: 40px;
-};
-
+}
 
 .SearchContainer {
-  @include style.flexCenter;
+  @include style.flexRowCenter;
   background-color: style.$dark0-color;
   padding: 6px 12px;
   border-radius: 999px;

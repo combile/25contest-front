@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { ReactComponent as Lock } from "../svg/lock.svg";
 import * as colors from "./colorConstants.js";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { toggleFooterVisible, toggleNavVisible } from "../store.js";
 
 const Level = styled.span`
   color: ${colors.blueColor};
@@ -44,6 +47,7 @@ const GoToLevelTest = styled.p`
 const userLevel = "LOW";
 
 const LevelTestIndicator = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const goToLevelTest = () => {
     navigate("/level-test");
@@ -53,7 +57,15 @@ const LevelTestIndicator = () => {
     <CircleIndicator>
       <Level>{userLevel}</Level>
       <Line />
-      <GoToLevelTest onClick={goToLevelTest}>시험보러가기</GoToLevelTest>
+      <GoToLevelTest
+        onClick={() => {
+          goToLevelTest();
+          dispatch(toggleNavVisible("false"));
+          dispatch(toggleFooterVisible("false"));
+        }}
+      >
+        시험보러가기
+      </GoToLevelTest>
     </CircleIndicator>
   );
 };
