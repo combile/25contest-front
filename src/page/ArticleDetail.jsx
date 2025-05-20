@@ -4,13 +4,15 @@ import scss from "../styles/scss/ArticleDetail.module.scss";
 import styled from "styled-components";
 import {
   dark0Color,
+  dark1Color,
   dark2Color,
+  dark3Color,
   whiteColor,
 } from "../component/colorConstants";
 import { ReactComponent as ViewsIcon } from "../svg/views.svg";
 import { ReactComponent as BookMarkIcon } from "../svg/Bookmark.svg";
 
-import { DUMMY_DATA } from "./DUMMY_DATA";
+import { DUMMY_DATA } from "../utils/DUMMY_DATA";
 
 const Line = styled.div`
   background-color: ${dark0Color};
@@ -34,6 +36,22 @@ const ArticleTitle = styled.p`
   width: 90dvw;
   text-align: center;
   word-break: keep-all;
+`;
+
+const CommentAreaLabel = styled.label`
+  color: ${dark3Color};
+  font-weight: 600;
+  position: absolute;
+  top: -40px;
+  left: 10px;
+`;
+
+const CommentArea = styled.textarea`
+  resize: none;
+  box-shadow: 0px 0px 5px ${dark1Color};
+  border-radius: 20px;
+  width: 100%;
+  padding: 10px 15px 10px 15px;
 `;
 
 const Article = () => {
@@ -68,7 +86,6 @@ const Article = () => {
   }, [uuid]);
 
   // 나중에 기사 가져올 동안 보여줄 로딩창
-  // if (!article) return <div>Loading...</div>;
   if (!DUMMY_DATA) return <div>Loading...</div>;
 
   return (
@@ -107,8 +124,12 @@ const Article = () => {
         </div>
         <Line />
 
-        <p>코멘트 쓰기</p>
-        <input placeholder="코멘트를 입력해주세요" />
+        <div className={scss.commentWrapper}>
+          <div className={scss.commentContainer}>
+            <CommentAreaLabel htmlFor="comment">코멘트 쓰기</CommentAreaLabel>
+            <CommentArea id="comment" placeholder="코멘트를 입력해주세요" />
+          </div>
+        </div>
       </div>
     </div>
   );

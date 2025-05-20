@@ -9,6 +9,9 @@ const levelTestProgressCounter = createSlice({
     addCnt(state) {
       state.cnt += 1;
     },
+    initializeCnt(state) {
+      state.cnt = 0;
+    },
   },
 });
 
@@ -44,7 +47,7 @@ const footerIsVisible = createSlice({
   },
 });
 
-export let { addCnt } = levelTestProgressCounter.actions;
+export let { addCnt, initializeCnt } = levelTestProgressCounter.actions;
 export let { toggleNavVisible } = navIsVisible.actions;
 export let { toggleFooterVisible } = footerIsVisible.actions;
 

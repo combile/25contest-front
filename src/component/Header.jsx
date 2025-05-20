@@ -4,14 +4,14 @@ import { ReactComponent as Search } from "../svg/search.svg";
 
 import * as colors from "./colorConstants.js";
 
-import '../styles/styledComponents/GlobalStyle.jsx'
-import '../App.css'
-import scss from '../styles/scss/Header.module.scss'
+import "../styles/styledComponents/GlobalStyle.jsx";
+import "../App.css";
+import scss from "../styles/scss/Header.module.scss";
 
 const LogoText = styled.h1`
   width: 131px;
   height: 32px;
-  font-family: 'MediaSansBold';
+  font-family: "MediaSansBold";
   font-weight: 700;
   font-size: 32px;
   line-height: 100%;
@@ -46,7 +46,7 @@ const Line = styled.div`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 317px;
+  width: 90dvw;
   border-top: 1px solid ${colors.lightBlueColor};
   bottom: 0;
 `;

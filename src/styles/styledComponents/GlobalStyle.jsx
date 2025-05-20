@@ -3,10 +3,10 @@
 
 import { createGlobalStyle } from "styled-components";
 
-import SFProDisplayBold from '../fonts/sf-pro-display-bold.woff2'
-import SFProDisplayLight from '../fonts/sf-pro-display-light.woff2'
-import SFProDisplayRegular from '../fonts/sf-pro-display-regular.woff2'
-import MediaSansBold from '../fonts/Media-Sans-Bold.woff2'
+import SFProDisplayBold from "../fonts/sf-pro-display-bold.woff2";
+import SFProDisplayLight from "../fonts/sf-pro-display-light.woff2";
+import SFProDisplayRegular from "../fonts/sf-pro-display-regular.woff2";
+import MediaSansBold from "../fonts/Media-Sans-Bold.woff2";
 
 const GlobalStyle = createGlobalStyle`
   * {

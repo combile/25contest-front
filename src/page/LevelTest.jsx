@@ -5,7 +5,12 @@ import * as colors from "../component/colorConstants";
 import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
-import { addCnt, toggleFooterVisible, toggleNavVisible } from "../store";
+import {
+  addCnt,
+  initializeCnt,
+  toggleFooterVisible,
+  toggleNavVisible,
+} from "../store";
 import { useDispatch } from "react-redux";
 import CircularProgress from "../component/CircularProgress";
 
@@ -64,7 +69,9 @@ const LevelTest = () => {
       delay = setTimeout(() => {
         dispatch(toggleFooterVisible("true"));
         dispatch(toggleNavVisible("true"));
-        navigate("/dummy", { replace: true });
+        dispatch(initializeCnt()); // 재진입을 고려하여 카운터 초기화
+
+        navigate("/main", { replace: true });
       }, 2000);
     }
     return () => {

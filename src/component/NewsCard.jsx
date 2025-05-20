@@ -1,15 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import scss from "../styles/scss/ContentsMain.module.scss"
+import scss from "../styles/scss/NewsCard.module.scss";
 
 import * as colors from "../component/colorConstants";
-import '../styles/styledComponents/GlobalStyle'
+import "../styles/styledComponents/GlobalStyle";
 
-import { ReactComponent as View } from '../svg/view.svg';
+import { ReactComponent as View } from "../svg/view.svg";
 
 const Title = styled.div`
-  font-family: 'SFProDisplayBold';
+  font-family: "SFProDisplayBold";
   font-size: 14px;
   color: ${colors.dark4Color};
   margin-bottom: 10px;
@@ -38,13 +38,13 @@ const Info = styled.div`
   margin-top: 4px;
 `;
 
-const LeftColumn = styled.div `
+const LeftColumn = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   padding-right: 30px;
-`
+`;
 
 const RightColumn = styled.div`
   width: 96px;
@@ -61,9 +61,18 @@ const ProfileImg = styled.img`
   object-fit: cover;
 `;
 
-const NewsCard = ({ id, title, tag1, tag2, view, source, time, profileUrl }) => {
+const NewsCard = ({
+  id,
+  title,
+  tag1,
+  tag2,
+  view,
+  source,
+  time,
+  profileUrl,
+}) => {
   return (
-    <div className= {scss.cardWrapper}>
+    <div className={scss.cardWrapper}>
       <LeftColumn>
         <Title>{title}</Title>
         <Tags>
@@ -71,8 +80,8 @@ const NewsCard = ({ id, title, tag1, tag2, view, source, time, profileUrl }) => 
           <Tag>{tag2}</Tag>
         </Tags>
         <Info>
-          <div className= {scss.cardInfoLeft}>
-            <div className= {scss.cardViewGroup}>
+          <div className={scss.cardInfoLeft}>
+            <div className={scss.cardViewGroup}>
               <View />
               <span>{view.toLocaleString()}</span>
             </div>
