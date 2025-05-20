@@ -65,19 +65,7 @@ const Tag = styled.div`
   font-weight: 500;
 `;
 
-const Indicator = styled.div`
-  width: 24px;
-  height: 4px;
-  border-radius: 2px;
-  background-color: ${(props) =>
-    props.active ? colors.blueColor : colors.dark0Color};
-  transition: background-color 0.3s;
-`;
-
 const HighlightSlider = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const sliderRef = useRef(null);
-
   const highlights = [
     {
       id: "news-1",
@@ -144,46 +132,9 @@ const HighlightSlider = () => {
     },
   ];
 
-  const handleScroll = () => {
-    if (sliderRef.current) {
-      const scrollPosition = sliderRef.current.scrollLeft;
-
-      const card = sliderRef.current.querySelector("div"); // 첫 SlideCard
-      if (!card) return;
-
-      const cardStyle = getComputedStyle(card);
-      const cardWidth =
-        card.offsetWidth +
-        parseInt(cardStyle.marginRight) +
-        parseInt(cardStyle.marginLeft); // 혹시 양쪽 margin이 있을 경우 대비
-
-      const newIndex = Math.floor(scrollPosition / cardWidth + 0.5);
-      if (
-        newIndex !== activeIndex &&
-        newIndex >= 0 &&
-        newIndex < highlights.length
-      ) {
-        setActiveIndex(newIndex);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (sliderRef.current) {
-      const scrollPosition = sliderRef.current.scrollLeft;
-      const cardWidth = 300 + 12;
-      const initialIndex = Math.round(scrollPosition / cardWidth);
-      setActiveIndex(initialIndex);
-    }
-  }, []);
-
   return (
     <>
-      <div
-        className={scss.sliderWrapper}
-        ref={sliderRef}
-        onScroll={handleScroll}
-      >
+      <div className={scss.sliderWrapper}>
         {highlights.map((item, idx) => (
           <SlideCard key={item.id}>
             <ProfileImage src={item.image} alt="profile" />
