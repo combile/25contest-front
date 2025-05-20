@@ -12,8 +12,8 @@ import { useDispatch } from "react-redux";
 function UserValidate({ children }) {
   const [isValidToken, setIsValidToken] = useState(true);
 
-  const navIsVisible = useSelector((state) => {
-    return state.navIsVisible;
+  const headerIsVisible = useSelector((state) => {
+    return state.headerIsVisible;
   });
   const footerIsVisible = useSelector((state) => {
     return state.footerIsVisible;
@@ -50,7 +50,7 @@ function UserValidate({ children }) {
 
   return (
     <>
-      {navIsVisible.visible ? <Header /> : null}
+      {headerIsVisible.visible ? <Header /> : null}
       {children}
       {footerIsVisible.visible ? <Footer /> : null}
     </>

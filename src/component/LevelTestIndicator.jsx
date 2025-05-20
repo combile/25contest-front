@@ -1,11 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { ReactComponent as Lock } from "../svg/lock.svg";
 import * as colors from "./colorConstants.js";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { toggleFooterVisible, toggleNavVisible } from "../store.js";
+import { toggleFooterVisible, toggleHeaderVisible } from "../store.js";
 
 const Level = styled.span`
   color: ${colors.blueColor};
@@ -60,7 +58,7 @@ const LevelTestIndicator = () => {
       <GoToLevelTest
         onClick={() => {
           goToLevelTest();
-          dispatch(toggleNavVisible(false));
+          dispatch(toggleHeaderVisible(false));
           dispatch(toggleFooterVisible(false));
         }}
       >

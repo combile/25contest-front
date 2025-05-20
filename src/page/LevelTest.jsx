@@ -9,7 +9,7 @@ import {
   addCnt,
   initializeCnt,
   toggleFooterVisible,
-  toggleNavVisible,
+  toggleHeaderVisible,
 } from "../store";
 import { useDispatch } from "react-redux";
 import CircularProgress from "../component/CircularProgress";
@@ -74,7 +74,7 @@ const LevelTest = () => {
     return state.levelTestProgressCounter;
   });
   const footerVisible = useSelector((state) => state.footerIsVisible.visible);
-  const navVisible = useSelector((state) => state.navIsVisible.visible);
+  const headerVisible = useSelector((state) => state.headerIsVisible.visible);
 
   useEffect(() => {
     let delayTimer;
@@ -83,7 +83,7 @@ const LevelTest = () => {
       delayTimer = setTimeout(() => {
         dispatch(initializeCnt());
         dispatch(toggleFooterVisible(true));
-        dispatch(toggleNavVisible(true));
+        dispatch(toggleHeaderVisible(true));
       }, 1000);
     }
 
@@ -92,14 +92,11 @@ const LevelTest = () => {
     };
   }, [counter, dispatch]);
 
-  const shouldNavigate = footerVisible && navVisible && counter.cnt === 5;
-
   useEffect(() => {
-    console.log("???");
-    if (shouldNavigate) {
+    if (counter.cnt === 0 && footerVisible && headerVisible) {
       navigate("/main", { replace: true });
     }
-  }, [shouldNavigate, navigate]);
+  }, [counter.cnt, footerVisible, headerVisible, navigate]);
 
   return (
     <div className={scss.wrapper}>
