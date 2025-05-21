@@ -13,6 +13,9 @@ import { ReactComponent as ViewsIcon } from "../svg/views.svg";
 import { ReactComponent as BookMarkIcon } from "../svg/Bookmark.svg";
 
 import { DUMMY_DATA } from "../utils/DUMMY_DATA";
+import FloatedButton from "../component/FloatedButton";
+import BookmarkToggle from "../component/BookmarkToggle";
+import AIModal from "../component/AIModal";
 
 const Line = styled.div`
   background-color: ${dark0Color};
@@ -56,7 +59,7 @@ const CommentArea = styled.textarea`
 
 const Article = () => {
   const { uuid } = useParams();
-  const [article, setArticle] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isoString = DUMMY_DATA.createdAt;
   const date = new Date(isoString);
@@ -119,6 +122,7 @@ const Article = () => {
         <div className={scss.bookMarkBtnWrapper}>
           <div className={scss.bookMarkBtn}>
             <BookMarkIcon />
+            <BookmarkToggle />
             <span>북마크</span>
           </div>
         </div>
@@ -131,6 +135,9 @@ const Article = () => {
           </div>
         </div>
       </div>
+
+      <FloatedButton onClick={() => setIsModalOpen(true)} />
+      {isModalOpen && <AIModal onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 };
