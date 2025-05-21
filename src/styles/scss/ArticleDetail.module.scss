@@ -30,6 +30,8 @@
 
       .tagWrapper {
         @include style.flexRowCenter;
+        flex-wrap: wrap;
+        width: 80dvw;
         gap: 10px;
       }
     }
@@ -95,6 +97,19 @@
           font-weight: bold;
           color: style.$dark2-color;
         }
+      }
+    }
+    .commentWrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 200px;
+
+      .commentContainer {
+        position: relative;
+        width: 80dvw;
       }
     }
   }

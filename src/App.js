@@ -22,7 +22,6 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      {navVisible ? <nav>this is nav</nav> : null}
       <BrowserRouter>
         <Routes>
           {/* 공개 라우트 */}
@@ -41,7 +40,6 @@ function App() {
           ))}
         </Routes>
       </BrowserRouter>
-      {footerVisible ? <footer>this is footer</footer> : null}
     </ThemeProvider>
   );
 }

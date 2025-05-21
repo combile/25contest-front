@@ -9,9 +9,11 @@ const protectedRoutes = [
   { path: "/level-check", element: <LevelCheck /> },
   { path: "/level-test", element: <LevelTest /> },
   // { path: "/articles/:uuid", element: <ArticleDetail /> }, // api 연결시 활용
-  { path: "/articles", element: <ArticleDetail /> },
+  { path: "/article", element: <ArticleDetail /> },
   { path: "/dummy", element: <div>Dummy</div> },
-  { path: "/main", element: <ContentsMain/>},
+  { path: "/main", element: <ContentsMain /> },
+  { path: "/trend", element: <div>트렌트페이지</div> },
+  { path: "/bookmark", element: <div>북마크페이지</div> },
 ];
 
 export default protectedRoutes;

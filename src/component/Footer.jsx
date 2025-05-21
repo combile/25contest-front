@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import "../App.css";
 import scss from "../styles/scss/Footer.module.scss";
@@ -13,8 +14,7 @@ const FooterItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: ${(props) => (props.active ? colors.blueColor : colors.dark1Color)};
-
+  color: ${(props) => (props.$active ? colors.blueColor : colors.dark1Color)};
   -webkit-tap-highlight-color: transparent;
   user-select: none;
 `;
@@ -23,7 +23,7 @@ const Label = styled.span`
   font-family: "SF_Pro_Display_Bold";
   font-weight: bold;
   font-size: 12px;
-  color: ${(props) => (props.active ? colors.blueColor : colors.dark1Color)};
+  color: ${(props) => (props.$active ? colors.blueColor : colors.dark1Color)};
 `;
 
 const IconStyle = `
@@ -35,54 +35,53 @@ const IconStyle = `
 const TrendIconStyled = styled(TrendIcon)`
   ${IconStyle}
   path {
-    fill: ${(props) => (props.active ? colors.blueColor : colors.dark1Color)};
+    fill: ${(props) => (props.$active ? colors.blueColor : colors.dark1Color)};
   }
 `;
 
 const HomeIconStyled = styled(HomeIcon)`
   ${IconStyle}
   path {
-    fill: ${(props) => (props.active ? colors.blueColor : colors.dark1Color)};
+    fill: ${(props) => (props.$active ? colors.blueColor : colors.dark1Color)};
   }
 `;
 
 const BookmarkIconStyled = styled(BookmarkIcon)`
   ${IconStyle}
   path {
-    fill: ${(props) => (props.active ? colors.blueColor : colors.dark1Color)};
+    fill: ${(props) => (props.$active ? colors.blueColor : colors.dark1Color)};
   }
 `;
 
 const Footer = () => {
-  const [active, setActive] = useState("main");
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const handleClick = (tab) => {
-    setActive(tab);
-    alert("미구현 기능입니다.");
-  };
+  const currentPath = location.pathname;
+
+  const isActive = (path) => currentPath === path;
 
   return (
     <div className={scss.wrapper}>
       <FooterItem
-        active={active === "trend"}
-        onClick={() => handleClick("trend")}
+        $active={isActive("/trend")}
+        onClick={() => navigate("/trend")}
       >
-        <TrendIconStyled active={active === "trend"} />
-        <Label active={active === "trend"}>트렌드</Label>
+        <TrendIconStyled $active={isActive("/trend")} />
+        <Label $active={isActive("/trend")}>트렌드</Label>
       </FooterItem>
-      <FooterItem
-        active={active === "main"}
-        onClick={() => handleClick("main")}
-      >
-        <HomeIconStyled active={active === "main"} />
-        <Label active={active === "main"}>메인</Label>
+
+      <FooterItem $active={isActive("/main")} onClick={() => navigate("/main")}>
+        <HomeIconStyled $active={isActive("/main")} />
+        <Label $active={isActive("/main")}>메인</Label>
       </FooterItem>
+
       <FooterItem
-        active={active === "bookmark"}
-        onClick={() => handleClick("bookmark")}
+        $active={isActive("/bookmark")}
+        onClick={() => navigate("/bookmark")}
       >
-        <BookmarkIconStyled active={active === "bookmark"} />
-        <Label active={active === "bookmark"}>북마크</Label>
+        <BookmarkIconStyled $active={isActive("/bookmark")} />
+        <Label $active={isActive("/bookmark")}>북마크</Label>
       </FooterItem>
     </div>
   );

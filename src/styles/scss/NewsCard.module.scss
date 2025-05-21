@@ -1,0 +1,42 @@
+@use "/src/styles" as style;
+
+.cardWrapper {
+  @include style.flexCenter;
+  position: relative;
+  justify-content: space-between;
+  width: 90dvw;
+  padding: 14px 16px;
+  margin: 12px 16px;
+  background-color: white;
+  border-radius: 24px;
+  border: 1px solid style.$dark0-color;
+}
+
+.cardInfo {
+  @include style.flexCenter;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.cardInfoLeft {
+  @include style.flexCenter;
+  font-size: 12px;
+  color: style.$dark1-color;
+  gap: 6px;
+}
+
+.cardViewGroup {
+  @include style.flexCenter;
+  gap: 4px;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    fill: style.$dark0-color;
+  }
+
+  span {
+    font-size: 12px;
+  }
+}

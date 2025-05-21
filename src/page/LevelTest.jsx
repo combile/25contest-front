@@ -5,9 +5,16 @@ import * as colors from "../component/colorConstants";
 import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
-import { addCnt, toggleFooterVisible, toggleNavVisible } from "../store";
+import {
+  addCnt,
+  initializeCnt,
+  toggleFooterVisible,
+  toggleHeaderVisible,
+} from "../store";
 import { useDispatch } from "react-redux";
 import CircularProgress from "../component/CircularProgress";
+
+const SAMPLE_VOCA = ["선택지1", "선택지2", "선택지3", "선택지4"];
 
 const Line = styled.div`
   width: 100%;
@@ -39,7 +46,7 @@ const CurvedLine = styled.div`
   border-radius: 40px;
 `;
 
-const SelectButton = styled.li`
+const SelectButton = styled.button`
   border-radius: 15px;
   box-shadow: 0px 0px 4px ${colors.dark1Color};
   width: 300px;
@@ -48,6 +55,15 @@ const SelectButton = styled.li`
   margin: 10px;
   font-size: 1.3rem;
   cursor: pointer;
+
+  transition: 0.2s;
+
+  &:disabled {
+    background-color: ${colors.grayColor};
+    color: ${colors.dark1Color};
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 `;
 
 const LevelTest = () => {
@@ -57,20 +73,30 @@ const LevelTest = () => {
   let counter = useSelector((state) => {
     return state.levelTestProgressCounter;
   });
+  const footerVisible = useSelector((state) => state.footerIsVisible.visible);
+  const headerVisible = useSelector((state) => state.headerIsVisible.visible);
 
   useEffect(() => {
-    let delay;
+    let delayTimer;
+
     if (counter.cnt === 5) {
-      delay = setTimeout(() => {
-        dispatch(toggleFooterVisible("true"));
-        dispatch(toggleNavVisible("true"));
-        navigate("/dummy", { replace: true });
-      }, 2000);
+      delayTimer = setTimeout(() => {
+        dispatch(initializeCnt());
+        dispatch(toggleFooterVisible(true));
+        dispatch(toggleHeaderVisible(true));
+      }, 1000);
     }
+
     return () => {
-      clearTimeout(delay);
+      clearTimeout(delayTimer);
     };
-  }, [counter, navigate]);
+  }, [counter, dispatch]);
+
+  useEffect(() => {
+    if (counter.cnt === 0 && footerVisible && headerVisible) {
+      navigate("/main", { replace: true });
+    }
+  }, [counter.cnt, footerVisible, headerVisible, navigate]);
 
   return (
     <div className={scss.wrapper}>
@@ -83,12 +109,17 @@ const LevelTest = () => {
         <CircularProgress />
       </div>
       <CurvedLine />
-      <ul className={scss.selectionWrapper}>
-        <SelectButton onClick={() => dispatch(addCnt())}>선택지1</SelectButton>
-        <SelectButton onClick={() => dispatch(addCnt())}>선택지2</SelectButton>
-        <SelectButton onClick={() => dispatch(addCnt())}>선택지3</SelectButton>
-        <SelectButton onClick={() => dispatch(addCnt())}>선택지4</SelectButton>
-      </ul>
+      <div className={scss.selectionWrapper}>
+        {SAMPLE_VOCA.map((label, i) => (
+          <SelectButton
+            key={i}
+            disabled={counter.cnt >= 5}
+            onClick={() => dispatch(addCnt())}
+          >
+            {label}
+          </SelectButton>
+        ))}
+      </div>
     </div>
   );
 };
