@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components';
+import api from '../../../component/axios';
 
 import { ReactComponent as BackIcon } from "../../../svg/backicon.svg";
 import { ReactComponent as CheckIcon } from "../../../svg/checkicon.svg";
@@ -26,7 +27,6 @@ const PaginationDot = styled.div`
   border-radius: 4px;
   background-color: ${props => props.active ? '#336AF8' : '#ACACAC'};
   transition: all 0.3s ease;
-  cursor: pointer;
 `;
 
 const PageWrapper = styled.div`
@@ -210,11 +210,33 @@ const InfoInputPage = ({ onSubmit }) => {
     }
   };
 
-  const handleEmailChange = (e) => {
+  const handleEmailChange = async (e) => {
     const value = e.target.value;
     setEmail(value);
-    const isValid = validateEmail(value);
-    setIsEmailValid(isValid);
+  
+    const isFormatValid = validateEmail(value);
+    setIsEmailValid(isFormatValid);
+  
+    if (!isFormatValid) return;
+  
+    try {
+      const res = await api.post('/app-user/initial/redundancy-check', {
+        email: value,
+        loginId: ''
+      });
+  
+      if (res.data === true) {
+        setEmailError("이미 가입된 이메일입니다.");
+        setIsEmailValid(false);
+      } else {
+        setEmailError('');
+        setIsEmailValid(true);
+      }
+    } catch (err) {
+      console.error('이메일 중복 검사 오류:', err);
+      setEmailError('서버 오류가 발생했습니다.');
+      setIsEmailValid(false);
+    }
   };
   
   const navigate = useNavigate();
@@ -224,7 +246,7 @@ const InfoInputPage = ({ onSubmit }) => {
 
   const handleSubmit = () => {
     if (isFormValid) {
-      onSubmit({ name, phoneNumber, email});
+      onSubmit({ name, phoneNumber: phoneNumber.replace(/-/g, ''), email});
     }
   };
   

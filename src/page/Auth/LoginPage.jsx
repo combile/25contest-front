@@ -3,17 +3,16 @@ import React from 'react';
 import styled from 'styled-components';
 import '../../App.css'
 
+import scss from '../../styles/scss/Auth.module.scss'
+
 import { ReactComponent as Apple } from "../../svg/apple.svg";
 import { ReactComponent as Facebook } from "../../svg/facebook.svg";
 import { ReactComponent as Google } from "../../svg/google.svg";
 import { ReactComponent as Kakao } from "../../svg/kakao.svg";
 import { ReactComponent as Naver } from "../../svg/naver.svg";
 
-const FormWrapper = styled.form`
-  width: 90%;
-  max-width: 380px;
-  margin-top: 45px;
-`;
+import { ReactComponent as DeniedIcon } from "../../svg/deniedicon.svg";
+
 
 const InputGroup = styled.div`
   position: relative;
@@ -43,18 +42,6 @@ const InputGroup = styled.div`
     &:focus {
       border-bottom: 1.5px solid #002AFF;
     }
-  }
-`;
-
-const CheckboxContainer = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  color: #3c3c3c;
-  margin: 5px 0;
-
-  input {
-    margin-right: 10px;
   }
 `;
 
@@ -93,37 +80,21 @@ const LinkGroup = styled.div`
   }
 `;
 
-const SocialButton = styled.div`
-  margin-top: 24px;
-
-  button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 10px;
-    margin-bottom: 12px;
-    border-radius: 24px;
-    border: 1px solid #eee;
-    background-color: #fff;
-    color: #363636;
-    font-weight: 500;
-    font-size: 15px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.25));
-    cursor: pointer;
-
-    svg {
-      position: absolute;
-      left: 16px;
-      width: 20px;
-      height: 20px;
-    }
-  }
+const ErrorMessage = styled.p`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #FF3B30;
+  font-size: 12px;
+  margin-top: 4px;
+  margin-bottom: -30px;
+  padding-left: 2px;
 `;
 
-const LoginPage = ({ email, password, setEmail, setPassword, handleLogin }) => {
+const LoginPage = ({
+  email, password, setEmail, setPassword, handleLogin,
+  emailError, passwordError
+}) => {
   const [remember, setRemember] = React.useState(false);
   useEffect(() => {
     const setVh = () => {
@@ -137,7 +108,7 @@ const LoginPage = ({ email, password, setEmail, setPassword, handleLogin }) => {
   }, []);
 
   return (
-    <FormWrapper onSubmit={handleLogin}>
+    <div className={scss.loginWrapper} onSubmit={handleLogin}>
       <InputGroup>
         <label htmlFor="email">아이디</label>
         <input
@@ -146,6 +117,7 @@ const LoginPage = ({ email, password, setEmail, setPassword, handleLogin }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        {emailError && <ErrorMessage><DeniedIcon width={14} height={14} />{emailError}</ErrorMessage>}
       </InputGroup>
 
       <InputGroup>
@@ -156,18 +128,21 @@ const LoginPage = ({ email, password, setEmail, setPassword, handleLogin }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {passwordError && <ErrorMessage><DeniedIcon width={14} height={14} />{passwordError}</ErrorMessage>}
       </InputGroup>
 
-      <CheckboxContainer>
+      <div className={scss.loginCheckboxContainer}>
         <input
           type="checkbox"
           checked={remember}
           onChange={() => setRemember(!remember)}
         />
         로그인 상태 유지
-      </CheckboxContainer>
+      </div>
 
-      <LoginButton type="submit">확인</LoginButton>
+      <LoginButton type="button" onClick={handleLogin}>
+        확인
+      </LoginButton>
 
       <LinkGroup>
         <a
@@ -188,14 +163,14 @@ const LoginPage = ({ email, password, setEmail, setPassword, handleLogin }) => {
         </a>
       </LinkGroup>
 
-      <SocialButton>
+      <div className = {scss.authSocialButton}>
         <button type="button"><Naver width={20} height={20} />네이버 계정으로 로그인</button>
         <button type="button"><Kakao width={20} height={20} />카카오 계정으로 로그인</button>
         <button type="button"><Facebook width={20} height={20} />페이스북 계정으로 로그인</button>
         <button type="button"><Google width={20} height={20} />구글 계정으로 로그인</button>
         <button type="button"><Apple width={20} height={20} />애플 계정으로 로그인</button>
-      </SocialButton>
-    </FormWrapper>
+      </div>
+    </div>
   );
 };
 

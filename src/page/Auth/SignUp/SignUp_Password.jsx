@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import api from '../../../component/axios';
 
 import { ReactComponent as BackIcon } from "../../../svg/backicon.svg";
 import { ReactComponent as CheckIcon } from "../../../svg/checkicon.svg";
@@ -137,22 +138,39 @@ const PasswordPage = ({ onSubmit, onBack }) => {
   const [isConfirmValid, setIsConfirmValid] = useState(null);
   const [isValid, setIsValid] = useState(false);
 
-  const handleIdChange = e => {
+  const handleIdChange = async e => {
     const value = e.target.value;
     setId(value);
   
     if (!value) {
       setIdError('');
       setIsIdValid(null);
-    } else if (value.length < 3) {
+      return;
+    }
+  
+    if (value.length < 3) {
       setIdError("아이디는 3자 이상이어야 합니다.");
       setIsIdValid(false);
-    } else if (value === "testuser") {
-      setIdError("이미 가입된 아이디입니다.");
+      return;
+    }
+  
+    try {
+      const res = await api.post('/app-user/initial/redundancy-check', {
+        email: '',
+        loginId: value
+      });
+  
+      if (res.data === true) {
+        setIdError("이미 가입된 아이디입니다.");
+        setIsIdValid(false);
+      } else {
+        setIdError('');
+        setIsIdValid(true);
+      }
+    } catch (err) {
+      console.error('아이디 중복 검사 오류:', err);
+      setIdError('서버 오류가 발생했습니다.');
       setIsIdValid(false);
-    } else {
-      setIdError('');
-      setIsIdValid(true);
     }
   };
 

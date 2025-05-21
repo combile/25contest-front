@@ -3,6 +3,11 @@
 
 import { createGlobalStyle } from "styled-components";
 
+import SFProDisplayBold from '../fonts/sf-pro-display-bold.woff2'
+import SFProDisplayLight from '../fonts/sf-pro-display-light.woff2'
+import SFProDisplayRegular from '../fonts/sf-pro-display-regular.woff2'
+import MediaSansBold from '../fonts/Media-Sans-Bold.woff2'
+
 const GlobalStyle = createGlobalStyle`
   * {
     margin: 0;
@@ -11,11 +16,10 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    width: 100%;
-    height: 100%;
+    width: 100dvw;
+    height: 100dvh;
     font-family: 'Noto Sans', sans-serif;
     background-color: #ffffff;
-    line-height: 1.5; // 줄 간격
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -46,6 +50,23 @@ const GlobalStyle = createGlobalStyle`
     font-size: inherit;
     outline: none;
     border: none;
+  }
+  
+  @font-face {
+        font-family: 'SFProDisplayBold';
+        src: url(${SFProDisplayBold}) format('truetype');
+  }
+  @font-face {
+        font-family: 'SFProDisplayLight';
+        src: url(${SFProDisplayLight}) format('truetype');
+  }
+  @font-face {
+        font-family: 'SFProDisplayRegular';
+        src: url(${SFProDisplayRegular}) format('truetype');
+  }
+  @font-face {
+        font-family: 'MediaSansBold';
+        src: url(${MediaSansBold}) format('truetype');
   }
 `;
 
