@@ -1,0 +1,51 @@
+@use "/src/styles" as style;
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+
+  @include style.flexColCenter;
+
+  z-index: 999;
+}
+
+.blurBg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(10px);
+  z-index: 999;
+}
+
+.headerContainer {
+  @include style.flexColCenter;
+}
+
+.modalContainer {
+  @include style.flexColCenter;
+  gap: 40px;
+
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); // 강조용 그림자
+
+  border-radius: 20px;
+  width: 90vw;
+  max-width: 500px;
+  height: 600px;
+
+  padding-bottom: 100px;
+
+  position: relative;
+}
+
+.definitionWrapper,
+.sentenceWrapper {
+  width: 80%;
+}

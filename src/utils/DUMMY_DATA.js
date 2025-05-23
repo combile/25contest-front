@@ -47,9 +47,16 @@ export const DUMMY_DATA = {
   words: [
     {
       wordId: 0,
-      word: "string",
-      definition: "string",
-      sentence: "string",
+      word: "유심",
+      definition: "USIM임 ㄷㄷ",
+      sentence: "USIM은 어디서 삼??",
+      level: "LOW",
+    },
+    {
+      wordId: 1,
+      word: "정황",
+      definition: "정황은 정황임 알겠슴?",
+      sentence: "정황이 없네",
       level: "LOW",
     },
   ],
