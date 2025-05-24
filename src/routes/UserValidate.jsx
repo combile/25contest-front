@@ -2,15 +2,17 @@
 // useEffect 로직은 추후 백엔드와 상의하며 수정이 필요함.
 
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
-import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
+import api from "../component/axios";
+
 import Header from "../component/Header";
 import Footer from "../component/Footer";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 function UserValidate({ children }) {
-  const [isValidToken, setIsValidToken] = useState(true);
+  const [isValidToken, setIsValidToken] = useState(null);
+  const navigate = useNavigate();
 
   const headerIsVisible = useSelector((state) => {
     return state.headerIsVisible;
@@ -20,24 +22,28 @@ function UserValidate({ children }) {
   });
 
   useEffect(() => {
-    // const checkToken = async () => {
-    //   const token = localStorage.getItem("token");
-    //   if (!token) {
-    //     setIsValidToken(false);
-    //     return;
-    //   }
-    //   try {
-    //     await axios.get("/api/check-token", {
-    //       headers: { Authorization: `Bearer ${token}` },
-    //     });
-    //     setIsValidToken(true);
-    //   } catch (error) {
-    //     console.error("Token invalid:", error);
-    //     setIsValidToken(false);
-    //   }
-    // };
-    // checkToken();
-  }, []);
+    const checkToken = async () => {
+      try {
+        const res = await api.get("/app-user/users");
+        if (res.status === 200) {
+          setIsValidToken(true);
+
+          const path = window.location.pathname;
+          const isAuthPage = ["/", "/auth", "/auth/signup"].includes(path);
+          if (isAuthPage) {
+            navigate("/main", { replace: true });
+          }
+        } else {
+          setIsValidToken(false);
+        }
+      } catch (error) {
+        console.error("Token check failed:", error);
+        setIsValidToken(false);
+      }
+    };
+
+    checkToken();
+  }, [navigate]);
 
   if (isValidToken === null) {
     // 로딩 컴포넌트 따로 만들어도 좋음. 이건 시간적인 여유가 있을 때 상의 필요.
@@ -45,7 +51,7 @@ function UserValidate({ children }) {
   }
 
   if (!isValidToken) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/auth" replace />;
   }
 
   return (

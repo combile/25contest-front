@@ -1,0 +1,26 @@
+@use "/src/styles" as style;
+
+.container {
+  @include style.flexDirectionCol;
+  height: calc(var(--vh, 1vh) * 100);
+  width: 100%;
+  overflow: hidden;
+  background-color: white;
+  position: relative;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  &.visible {
+    opacity: 1;
+  }
+}
+
+.paginationContainer {
+  @include style.flexJustifyCenter;
+  margin-top: 20px;
+  margin-bottom: 16px;
+}
+
+.contentContainer {
+  text-align: center;
+  margin-top: 32px;
+}

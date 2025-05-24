@@ -1,0 +1,19 @@
+@use "/src/styles" as style;
+
+.loginWrapper {
+  width: 90%;
+  max-width: 380px;
+  margin-top: 45px;
+  }
+  
+  .loginCheckboxContainer {
+    @include style.flexRow;
+  
+    font-size: 14px;
+    color: style.$dark4-color;
+    margin: 5px 0;
+  
+    input {
+      margin-right: 10px;
+    }
+  }

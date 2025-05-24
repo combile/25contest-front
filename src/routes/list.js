@@ -1,4 +1,14 @@
-// 유저 인증이 필요 없는 페이지들은 여기
-const routes = [{ path: "/", element: <></> }];
+import Auth from "../page/AuthPage";
+import SignUpFlow from "../page/SignUpContainer";
+import Tutorial from "../page/Tutorial";
+import Loading from "../page/Loading";
+import LoginConfirm from "./LoginConfirm";
+
+const routes = [
+  { path: "/", element: <Loading /> },
+  { path: "/auth", element: <LoginConfirm><Auth /></LoginConfirm> },
+  { path: "/auth/signup", element: <LoginConfirm><SignUpFlow /></LoginConfirm> },
+  { path: "/tutorial", element: <LoginConfirm><Tutorial /></LoginConfirm> },
+];
 
 export default routes;

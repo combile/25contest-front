@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import "../App.css";
 import scss from "../styles/scss/Footer.module.scss";
 import * as colors from "./colorConstants.js";
 

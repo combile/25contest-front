@@ -1,0 +1,68 @@
+@use "/src/styles" as style;
+
+@font-face {
+  font-family: 'SFProDisplayBold';
+  src: url("../fonts/sf-pro-display-bold.woff2") format('truetype');
+}
+
+.paginationContainer {
+  @include style.flexRow;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden;
+}
+
+.topBar {
+  position: relative;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  margin-bottom: 32px;
+}
+
+.container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 24px;
+}
+
+.inputWrapper {
+  position: relative;
+  margin-bottom: 50px;
+
+  label {
+    position: absolute;
+    top: -14px;
+    left: -3px;
+    font-size: 14px;
+    color: style.$dark1-color;
+    padding: 0 4px;
+  }
+}
+
+.buttonWrapper {
+  padding: 0 24px 32px 24px;
+}
+
+.Title {
+  font-size: 22px;
+  font-family: "SFProDisplayBold";
+  font-style: normal;
+  font-weight: 600;
+}
+
+.SubTitle{
+  font-size: 22px;
+  font-family: "SFProDisplayBold";
+  margin-bottom: 50px;
+  font-style: normal;
+  font-weight: 600;
+}

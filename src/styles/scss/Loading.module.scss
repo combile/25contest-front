@@ -1,0 +1,28 @@
+@use "/src/styles" as style;
+
+.container {
+  position: relative;
+  height: calc(var(--vh, 1vh) * 100);
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #81A4FF 0%, #2144A0 83.65%, #1E3E92 100%);
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+
+  &.visible {
+    opacity: 1;
+  }
+}
+
+.wrapper {
+  @include style.flexDirectionCol;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  color: white;
+}
+
+.logoBox {
+  @include style.flexAlignCenter;
+  margin-top: 16px;
+}
