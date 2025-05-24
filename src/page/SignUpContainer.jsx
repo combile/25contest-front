@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // 추가
 import InfoInputPage from '../component/SignUp_Info';
 import PasswordPage from '../component/SignUp_Password';
 import DonePage from '../component/SignUp_Done';
 import api from '../component/axios';
 
 const SignUpContainer = () => {
+  const navigate = useNavigate(); // 추가
+
   useEffect(() => {
     const setVh = () => {
       const vh = window.innerHeight * 0.01;
@@ -30,7 +33,6 @@ const SignUpContainer = () => {
 
   useEffect(() => {
     if (step === 2) {
-      console.log("최종 회원가입 요청 데이터:", formData);
       const registerUser = async () => {
         try {
           const response = await api.post('/app-user/initial/users', {
@@ -42,6 +44,7 @@ const SignUpContainer = () => {
             password: formData.password,
           });
           console.log('회원가입 성공:', response.data);
+          setTimeout(() => navigate("/main"), 2000);
         } catch (error) {
           console.error('회원가입 실패:', error.response?.data || error.message);
           alert('회원가입 중 오류가 발생했습니다.');
@@ -49,7 +52,7 @@ const SignUpContainer = () => {
       };
       registerUser();
     }
-  }, [step, formData]);
+  }, [step, formData, navigate]);
 
   const steps = [
     <InfoInputPage onSubmit={handleNext} currentStep={step} key="info" />,
