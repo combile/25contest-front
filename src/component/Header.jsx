@@ -5,7 +5,6 @@ import { ReactComponent as Search } from "../svg/search.svg";
 import * as colors from "./colorConstants.js";
 
 import "../styles/styledComponents/GlobalStyle.jsx";
-import "../App.css";
 import scss from "../styles/scss/Header.module.scss";
 
 const LogoText = styled.h1`
@@ -30,6 +29,7 @@ const SearchInput = styled.input`
 
   &::placeholder {
     color: ${colors.dark1Color};
+    font-family: 'SFProDisplayRegular';
   }
 
   &:focus {
