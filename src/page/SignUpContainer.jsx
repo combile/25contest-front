@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // 추가
+import { useNavigate } from 'react-router-dom'; 
 import InfoInputPage from '../component/SignUp_Info';
 import PasswordPage from '../component/SignUp_Password';
 import DonePage from '../component/SignUp_Done';
 import api from '../component/axios';
 
 const SignUpContainer = () => {
-  const navigate = useNavigate(); // 추가
+  const navigate = useNavigate();
 
   useEffect(() => {
     const setVh = () => {
