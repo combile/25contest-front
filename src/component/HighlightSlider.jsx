@@ -1,7 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import BookmarkToggle from "./BookmarkToggle";
 
+import extractAuthorName from "../utils/extractAuthorName";
+import { formatDateTime } from "../utils/dateUtils";
+
+import api from "../component/axios";
 import scss from "../styles/scss/HighlightSlider.module.scss";
 import { URL } from "../utils/DUMMY_IMG_URL.js";
 
@@ -44,10 +47,15 @@ const Description = styled.div`
   padding: 12px;
   background: ${colors.grayColor};
   border-radius: 10px;
-  color: ${colors.dark4Color};
-  font-size: 13px;
+  color: ${colors.dark3Color};
+  font-size: 12px;
   line-height: 1.5;
-  min-height: 60px;
+  min-height: 30px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const TagRow = styled.div`
@@ -66,90 +74,68 @@ const Tag = styled.div`
 `;
 
 const HighlightSlider = () => {
-  const highlights = [
-    {
-      id: "news-1",
-      title: "현재, 새벽 3시 반 “생활패턴이 꼬였어요”",
-      source: "한반뉴스 · 1시간 전",
-      image: URL,
-      description: "dk..",
-    },
-    {
-      id: "news-2",
-      title: "요즘 늦잠에 빠졌어요",
-      source: "한반뉴스 · 2시간 전",
-      image: URL,
-      description: "밤낮이 바뀌었는데 다시 돌리는 게 힘드네요...",
-    },
-    {
-      id: "news-3",
-      title: "오늘도 날밤... 커피가 친구네요",
-      source: "한반뉴스 · 3시간 전",
-      image: URL,
-      description: "내일 아침 일정도 있는데 큰일입니다ㅠㅠ",
-    },
-    {
-      id: "news-4",
-      title: "오늘도 날밤... 커피가 친구네요",
-      source: "한반뉴스 · 3시간 전",
-      image: URL,
-      description: "내일 아침 일정도 있는데 큰일입니다ㅠㅠ",
-    },
-    {
-      id: "news-5",
-      title: "오늘도 날밤... 커피가 친구네요",
-      source: "한반뉴스 · 3시간 전",
-      image: URL,
-      description: "내일 아침 일정도 있는데 큰일입니다ㅠㅠ",
-    },
-    {
-      id: "news-6",
-      title: "오늘도 날밤... 커피가 친구네요",
-      source: "한반뉴스 · 3시간 전",
-      image: URL,
-      description: "내일 아침 일정도 있는데 큰일입니다ㅠㅠ",
-    },
-    {
-      id: "news-7",
-      title: "오늘도 날밤... 커피가 친구네요",
-      source: "한반뉴스 · 3시간 전",
-      image: URL,
-      description: "내일 아침 일정도 있는데 큰일입니다ㅠㅠ",
-    },
-    {
-      id: "news-8",
-      title: "오늘도 날밤... 커피가 친구네요",
-      source: "한반뉴스 · 3시간 전",
-      image: URL,
-      description: "내일 아침 일정도 있는데 큰일입니다ㅠㅠ",
-    },
-    {
-      id: "news-9",
-      title: "오늘도 날밤... 커피가 친구네요",
-      source: "한반뉴스 · 3시간 전",
-      image: URL,
-      description: "내일 아침 일정도 있는데 큰일입니다ㅠㅠ",
-    },
-  ];
+  const [topViewed, setTopViewed] = useState([]);
+  const truncateTitle = (title) => {
+    return title.length > 15 ? title.slice(0, 15) + "..." : title;
+  };
+
+  const truncateContent = (content) => {
+    if (!content) return "";
+    return (
+      content.replace(/\\n/g, " ").replace(/\s+/g, " ").trim().slice(0, 50) +
+      "..."
+    );
+  };
+  useEffect(() => {
+    const fetchTopNews = async () => {
+      try {
+        const res = await api.get("/news/reading/all", {
+          params: { sort: "views" },
+        });
+
+        let news = res.data || [];
+
+        const allZero = news.every((item) => item.views === 0);
+        if (allZero) {
+          news = news.slice(0, 3);
+        } else {
+          news = news.sort((a, b) => b.views - a.views).slice(0, 3);
+        }
+
+        setTopViewed(news);
+      } catch (err) {
+        console.error(
+          "조회수 기준 뉴스 로딩 실패:",
+          err.response?.data || err.message
+        );
+      }
+    };
+
+    fetchTopNews();
+  }, []);
 
   return (
-    <>
-      <div className={scss.sliderWrapper}>
-        {highlights.map((item, idx) => (
-          <SlideCard key={item.id}>
-            <ProfileImage src={item.image} alt="profile" />
-            <Title>{item.title}</Title>
-            <Source>{item.source}</Source>
-            <Description>{item.description}</Description>
+    <div className={scss.sliderWrapper}>
+      {topViewed.map((item) => {
+        const { date, time } = formatDateTime(item.createdAt);
+        return (
+          <SlideCard key={item.uuid}>
+            <ProfileImage src={item.thumbnailUrl || URL} alt="profile" />
+            <Title>{truncateTitle(item.title)}</Title>
+            <Source>
+              {extractAuthorName(item.author)} · {date}
+              <br />
+              {time}
+            </Source>
+            <Description>{truncateContent(item.content)}</Description>
             <TagRow>
-              <Tag>시사</Tag>
-              <Tag>비틱</Tag>
+              <Tag>{item.domains?.[0]?.domain || "시사"}</Tag>
+              <Tag>{item.domains?.[1]?.domain || "기타"}</Tag>
             </TagRow>
-            <BookmarkToggle id={item.id} />
           </SlideCard>
-        ))}
-      </div>
-    </>
+        );
+      })}
+    </div>
   );
 };
 

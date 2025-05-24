@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+
+import api from "../component/axios";
 
 import scss from "../styles/scss/ContentsMain.module.scss";
 import * as colors from "../component/colorConstants";
@@ -9,8 +11,9 @@ import { URL } from "../utils/DUMMY_IMG_URL.js";
 import TestBanner from "../component/TestBanner";
 import HighlightSlider from "../component/HighlightSlider";
 import NewsCard from "../component/NewsCard";
+import extractAuthorName from "../utils/extractAuthorName";
 
-import { getFormattedDate } from "../utils/dateUtils";
+import { getFormattedDate, formatDateTime } from "../utils/dateUtils";
 
 const TextBanner = styled.div`
   font-family: "SFProDisplayBold";
@@ -41,6 +44,26 @@ const Line = styled.div`
 `;
 
 const ContentsMain = () => {
+  const [newsList, setNewsList] = useState([]);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await api.get("/news/reading/all", {
+          params: {
+            sort: "latest",
+          },
+        });
+        console.log("뉴스 불러오기 성공", res.data);
+        setNewsList(res.data);
+      } catch (err) {
+        console.error("뉴스 가져오기 실패", err.response?.data || err.message);
+      }
+    };
+
+    fetchNews();
+  }, []);
+
   return (
     <div className={scss.wrapper}>
       <div className={scss.scrollWrapper}>
@@ -59,21 +82,25 @@ const ContentsMain = () => {
               <span style={{ color: colors.blueColor }}>새로운</span> 뉴스예요!
             </TextBanner>
           </div>
-
           <Line />
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, i) => (
-            <NewsCard
-              key={_}
-              id="news-777"
-              title="속보, 우은식 지금 과제 하나도 안함 ㅋㅋ"
-              tag1="시사"
-              tag2="비틱"
-              view={16834}
-              time="1시간 전"
-              source="한밭뉴스"
-              profileUrl={URL}
-            />
-          ))}
+
+          {newsList.slice(0, 3).map((news) => {
+            const { date, time } = formatDateTime(news.createdAt);
+            return (
+              <NewsCard
+                key={news.uuid}
+                id={news.uuid}
+                title={news.title}
+                tag1={news.domains?.[0]?.domain || "기타"}
+                tag2={news.domains?.[1]?.domain || "기타"}
+                view={news.views}
+                date={date}
+                time={time}
+                source={extractAuthorName(news.author) || "__"}
+                profileUrl={news.thumbnailUrl || URL}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
