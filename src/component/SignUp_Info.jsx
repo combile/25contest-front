@@ -30,7 +30,7 @@ const PaginationDot = styled.div`
   transition: all 0.3s ease;
 `;
 
-const SignUpInfo = ({ onSubmit }) => {
+const SignUpInfo = ({ onSubmit,currentStep }) => {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [phoneError, setPhoneError] = useState('');

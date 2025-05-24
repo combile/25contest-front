@@ -27,7 +27,7 @@ const PaginationDot = styled.div`
   transition: all 0.3s ease;
 `;
 
-const SignUpPassword = ({ onSubmit, onBack }) => {
+const SignUpPassword = ({ onSubmit, onBack,currentStep }) => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
