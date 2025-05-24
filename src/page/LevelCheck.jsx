@@ -5,6 +5,10 @@ import * as colors from "../component/colorConstants.js";
 import LockedLevelTestIndicator from "../component/LockedLevelTestIndicator.jsx";
 import LevelTestIndicator from "../component/LevelTestIndicator.jsx";
 
+// TODO
+// DUMMY_USER.js 를 utils 폴더에 만들어서 그거에 맞게 다시 바인딩 해놓기
+// ArticleDetail.jsx 에 AI 관련 기능 추가 구현하기 (플로팅 버튼, 모달)
+
 const BlueText = styled.span`
   color: ${colors.blueColor};
 `;

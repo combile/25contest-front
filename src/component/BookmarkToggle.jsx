@@ -2,23 +2,25 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as BookmarkSvg } from '../svg/Bookmark.svg';
 import api from '../component/axios';
+import * as colors from "../component/colorConstants";
 import scss from "../styles/scss/Bookmark.module.scss";
 
 const StyledBookmark = styled(BookmarkSvg)`
   width: 100%;
   height: 100%;
   path {
-    fill: ${({ active }) => (active ? '#336AF8' : '#E6E6E6')};
+    fill: ${({ active }) => (active ? colors.blueColor : colors.grayColor)};
     transition: fill 0.2s;
   }
 `;
 
 const BookmarkToggle = ({ id }) => {
+  const storageKey = "bookmarkedItems";
   const [active, setActive] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem('bookmarkedItems')) || [];
+    const stored = JSON.parse(localStorage.getItem('storageKey')) || [];
     setActive(stored.includes(id));
   }, [id]);
 

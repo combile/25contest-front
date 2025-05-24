@@ -5,8 +5,6 @@
 }
 
 .wrapper {
-  position: relative;
-
   @include style.flexColCenter;
   height: 100dvh;
 
@@ -21,6 +19,7 @@
 
     margin: {
       top: 80px;
+      bottom: 76px;
     }
 
     .headerWrapper {
@@ -29,8 +28,6 @@
 
       .tagWrapper {
         @include style.flexRowCenter;
-        flex-wrap: wrap;
-        width: 80dvw;
         gap: 10px;
       }
     }
@@ -75,42 +72,11 @@
         margin: 20px;
       }
     }
-
-    .bookMarkBtnWrapper {
-      @include style.flexRowCenter;
-      margin: {
-        top: 20px;
-        bottom: 40px;
-      }
-
-      .bookMarkBtn {
-        @include style.flexColCenter;
-        border-radius: 50%;
-        box-shadow: 0px 0px 4px style.$dark1-color;
-        width: 60px;
-        height: 60px;
-        cursor: pointer;
-
-        span {
-          font-size: 12px;
-          font-weight: bold;
-          color: style.$dark2-color;
-        }
-      }
-    }
-    .commentWrapper {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 200px;
-      margin-bottom: 80px;
-
-      .commentContainer {
-        position: relative;
-        width: 80dvw;
-      }
+    .bookMarkBtn {
+      border-radius: 50%;
+      box-shadow: 0px 0px 4px style.$dark1-color;
+      width: 50px;
+      height: 50px;
     }
   }
 }

@@ -13,6 +13,11 @@ import { ReactComponent as ViewsIcon } from "../svg/views.svg";
 import { ReactComponent as BookMarkIcon } from "../svg/Bookmark.svg";
 
 import { DUMMY_DATA } from "../utils/DUMMY_DATA";
+import FloatedButton from "../component/FloatedButton";
+import BookmarkToggle from "../component/BookmarkToggle";
+import AIModal from "../component/AIModal";
+import { HighlightedArticle } from "../component/HighlightedArticle";
+import KeywordModal from "../component/KeywordModal";
 
 const Line = styled.div`
   background-color: ${dark0Color};
@@ -56,12 +61,11 @@ const CommentArea = styled.textarea`
 
 const Article = () => {
   const { uuid } = useParams();
-  const [article, setArticle] = useState(null);
-
-  const isoString = DUMMY_DATA.createdAt;
-  const date = new Date(isoString);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // 받아온 데이터 날짜 포맷팅
+  const isoString = DUMMY_DATA.createdAt;
+  const date = new Date(isoString);
   const formatted = `${date.getFullYear()}.${String(
     date.getMonth() + 1
   ).padStart(2, "0")}.${String(date.getDate()).padStart(2, "0")}`;
@@ -114,11 +118,15 @@ const Article = () => {
         </nav>
         <main className={scss.contentWrapper}>
           <img src={DUMMY_DATA.thumbnailUrl} alt="썸네일" />
-          <div>{formattedArticle}</div>
+          <HighlightedArticle
+            text={formattedArticle}
+            keyword_list={DUMMY_DATA.words}
+          />
         </main>
         <div className={scss.bookMarkBtnWrapper}>
           <div className={scss.bookMarkBtn}>
             <BookMarkIcon />
+            <BookmarkToggle />
             <span>북마크</span>
           </div>
         </div>
@@ -131,6 +139,9 @@ const Article = () => {
           </div>
         </div>
       </div>
+
+      <FloatedButton onClick={() => setIsModalOpen(true)} />
+      {isModalOpen && <AIModal onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 };

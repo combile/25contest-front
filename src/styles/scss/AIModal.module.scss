@@ -1,0 +1,60 @@
+@use "/src/styles" as style;
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+
+  @include style.flexColCenter;
+
+  z-index: 999;
+}
+
+.blurBg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(10px);
+  z-index: 999;
+}
+
+.modalContainer {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); // 강조용 그림자
+
+  border-radius: 20px;
+  width: 90vw;
+  max-width: 500px;
+  height: 600px;
+  overflow: hidden;
+  position: relative;
+}
+
+.slide {
+  flex: 0 0 100%;
+  @include style.flexColCenter;
+  gap: 20px;
+
+  height: 500px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.paginationWrapper {
+  display: flex;
+  justify-content: center;
+  margin: {
+    top: 20px;
+    bottom: 20px;
+  }
+}
+
+.aiCommentTitleWrapper {
+  text-align: center;
+}
