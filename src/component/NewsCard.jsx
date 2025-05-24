@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import scss from "../styles/scss/NewsCard.module.scss";
+import { formatDateTime } from "../utils/dateUtils";
 
 import * as colors from "../component/colorConstants";
 import "../styles/styledComponents/GlobalStyle";
@@ -30,12 +31,10 @@ const Tag = styled.span`
   line-height: 1;
 `;
 
-const Info = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-top: 4px;
+const MetaInfo = styled.div`
+  font-size: 12px;
+  color: ${colors.dark2Color};
+  margin-bottom: 4px;
 `;
 
 const LeftColumn = styled.div`
@@ -70,6 +69,7 @@ const NewsCard = ({
   view,
   source,
   time,
+  date,
   profileUrl,
 }) => {
   return (
@@ -80,15 +80,16 @@ const NewsCard = ({
           <Tag>{tag1}</Tag>
           <Tag>{tag2}</Tag>
         </Tags>
-        <Info>
-          <div className={scss.cardInfoLeft}>
-            <div className={scss.cardViewGroup}>
-              <View />
-              <span>{view.toLocaleString()}</span>
-            </div>
-            · {source} · {time}
-          </div>
-        </Info>
+        <MetaInfo>
+          {source} · {date}
+          <br />
+          {time}
+        </MetaInfo>
+
+        <div className={scss.ViewCount}>
+          <View />
+          <span>{view.toLocaleString()}</span>
+        </div>
       </LeftColumn>
 
       <RightColumn>
