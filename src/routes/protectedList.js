@@ -4,6 +4,7 @@ import ArticleDetail from "../page/ArticleDetail";
 import LevelCheck from "../page/LevelCheck";
 import LevelTest from "../page/LevelTest";
 import ContentsMain from "../page/ContentsMain";
+import Trend from "../page/ContentsTrend";
 import UserValidate from "../routes/UserValidate"; // 경로 확인 필요
 import Test from "../page/Test";
 
@@ -60,7 +61,7 @@ const protectedRoutes = [
     path: "/trend",
     element: (
       <UserValidate>
-        <div>트렌트페이지</div>
+        <Trend />
       </UserValidate>
     ),
   },
