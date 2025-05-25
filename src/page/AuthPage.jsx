@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import LoginPage from './LoginPage';
-import SignupPage from './SignUpPage';
-import api from '../component/axios';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import LoginPage from "./LoginPage";
+import SignupPage from "./SignUpPage";
+import api from "../component/axios";
 
-import scss from '../styles/scss/AuthPage.module.scss';
+import scss from "../styles/scss/AuthPage.module.scss";
 
 import "../styles/styledComponents/GlobalStyle.jsx";
 import * as colors from "../component/colorConstants";
+
+import { useDispatch } from "react-redux";
 
 const TabMenu = styled.div`
   display: flex;
@@ -20,7 +22,7 @@ const TabMenu = styled.div`
   max-width: 380px;
 
   .tab {
-    font-family: 'SFProDispayRegular';
+    font-family: "SFProDispayRegular";
     font-size: 14px;
     text-align: center;
     padding: 15px 60px;
@@ -33,7 +35,7 @@ const TabMenu = styled.div`
     }
 
     &.active::after {
-      content: '';
+      content: "";
       position: absolute;
       bottom: -1px;
       left: 0;
@@ -46,36 +48,55 @@ const TabMenu = styled.div`
 
 const AuthPage = () => {
   const navigate = useNavigate();
-  const [tab, setTab] = useState('login');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const dispatch = useDispatch();
+
+  const [tab, setTab] = useState("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  const setUserInfo = (userInfo) => {
+    localStorage.setItem(
+      "userInfo",
+      JSON.stringify({
+        username: userInfo.username,
+        views: userInfo.views,
+        vocaLevel: userInfo.vocabularyLevel,
+      })
+    );
+
+    console.log("Redux 및 localStorage 저장 완료");
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setEmailError('');
-    setPasswordError('');
+    setEmailError("");
+    setPasswordError("");
 
     try {
-      const response = await api.post('/auth/login', {
+      const response = await api.post("/auth/login", {
         loginId: email,
         password: password,
       });
 
-      const accessToken = response.headers['authorization']?.split(' ')[1];
+      const accessToken = response.headers["authorization"]?.split(" ")[1];
 
       if (accessToken) {
-        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem("accessToken", accessToken);
 
         try {
-          const userInfoRes = await api.get('/app-user/users');
-          localStorage.setItem('userInfo', JSON.stringify(userInfoRes.data));
-          alert('로그인 성공!');
-          navigate('/main');
+          const userInfoRes = await api.get("/app-user/users");
+          setUserInfo(userInfoRes.data);
+
+          // alert('로그인 성공!');
+          navigate("/main");
         } catch (userErr) {
-          console.error("유저 정보 불러오기 실패:", userErr.response?.data || userErr.message);
-          alert("로그인 성공했지만 유저 정보 불러오기 실패");
+          console.error(
+            "유저 정보 불러오기 실패:",
+            userErr.response?.data || userErr.message
+          );
+          // alert("로그인 성공했지만 유저 정보 불러오기 실패");
         }
       } else {
         setPasswordError("로그인 실패: 토큰이 없습니다.");
@@ -94,20 +115,20 @@ const AuthPage = () => {
     <div className={scss.authWrapper}>
       <TabMenu>
         <div
-          className={`tab ${tab === 'signup' ? 'active' : ''}`}
-          onClick={() => setTab('signup')}
+          className={`tab ${tab === "signup" ? "active" : ""}`}
+          onClick={() => setTab("signup")}
         >
           회원가입
         </div>
         <div
-          className={`tab ${tab === 'login' ? 'active' : ''}`}
-          onClick={() => setTab('login')}
+          className={`tab ${tab === "login" ? "active" : ""}`}
+          onClick={() => setTab("login")}
         >
           로그인
         </div>
       </TabMenu>
 
-      {tab === 'login' ? (
+      {tab === "login" ? (
         <LoginPage
           email={email}
           password={password}

@@ -1,5 +1,25 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
+const userInfo = createSlice({
+  name: "userInfo",
+  initialState: {
+    username: "",
+    vocaLevel: "",
+    views: 0,
+  },
+  reducers: {
+    setUsername(state, action) {
+      state.username = action.payload;
+    },
+    setVocalevel(state, action) {
+      state.vocaLevel = action.payload;
+    },
+    setViews(state, action) {
+      state.views = action.payload;
+    },
+  },
+});
+
 const levelTestProgressCounter = createSlice({
   name: "levelTestProgressCounter",
   initialState: {
@@ -42,11 +62,13 @@ const footerIsVisible = createSlice({
 export let { addCnt, initializeCnt } = levelTestProgressCounter.actions;
 export let { toggleHeaderVisible } = headerIsVisible.actions;
 export let { toggleFooterVisible } = footerIsVisible.actions;
+export let { setUsername, setViews, setVocalevel } = userInfo.actions;
 
 export default configureStore({
   reducer: {
     levelTestProgressCounter: levelTestProgressCounter.reducer,
     headerIsVisible: headerIsVisible.reducer,
     footerIsVisible: footerIsVisible.reducer,
+    userInfo: userInfo.reducer,
   },
 });
