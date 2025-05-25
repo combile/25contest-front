@@ -1,0 +1,19 @@
+@use "/src/styles" as style;
+
+.Wrapper {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.HeaderRow {
+  @include style.flexRowSpaceBetween;
+  padding: 24px 20px 16px 20px;
+}
+
+.SearchBox {
+  @include style.flexAlignCenter;
+  background: style.$gray-color;
+  border-radius: 20px;
+  padding: 6px 12px;
+  gap: 6px;
+}

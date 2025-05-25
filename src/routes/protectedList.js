@@ -4,6 +4,7 @@ import ArticleDetail from "../page/ArticleDetail";
 import LevelCheck from "../page/LevelCheck";
 import LevelTest from "../page/LevelTest";
 import ContentsMain from "../page/ContentsMain";
+import ContentsBookmark from "../page/ContentsBookmark";
 import UserValidate from "../routes/UserValidate"; // 경로 확인 필요
 
 const protectedRoutes = [
@@ -67,7 +68,7 @@ const protectedRoutes = [
     path: "/bookmark",
     element: (
       <UserValidate>
-        <div>북마크페이지</div>
+        <ContentsBookmark />
       </UserValidate>
     ),
   },
