@@ -65,8 +65,6 @@ const AuthPage = () => {
         vocaLevel: userInfo.vocabularyLevel,
       })
     );
-
-    console.log("Redux 및 localStorage 저장 완료");
   };
 
   const handleLogin = async (e) => {

@@ -76,38 +76,23 @@ const Article = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
-    const fetchArticle = async () => {
+    const fetchAll = async () => {
       try {
         const res = await api.get(`/news/reading/${uuid}`);
         setArticle(res.data);
       } catch (e) {
         console.error("Article not found", e);
       }
-    };
-    fetchArticle();
-  }, [uuid]);
 
-  useEffect(() => {
-    const fetchArticle = async () => {
-      try {
-        const res = await api.get(`/news/reading/${uuid}`);
-        setArticle(res.data);
-      } catch (e) {
-        console.error("Article not found", e);
-      }
-    };
-
-    const fetchBookmarkStatus = async () => {
       try {
         const res = await api.get(`/news/check-bookmark/${uuid}`);
-        setIsBookmarked(res.data === true); // 서버가 true/false 반환한다고 가정
+        setIsBookmarked(res.data === true);
       } catch (e) {
         console.error("Bookmark status fetch error", e);
       }
     };
 
-    fetchArticle();
-    fetchBookmarkStatus();
+    fetchAll();
   }, [uuid]);
 
   // 나중에 기사 가져올 동안 보여줄 로딩창

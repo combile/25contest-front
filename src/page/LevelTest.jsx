@@ -1,20 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import scss from "../styles/scss/LevelTest.module.scss";
-import * as colors from "../component/colorConstants";
 import { useNavigate } from "react-router-dom";
-
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   addCnt,
   initializeCnt,
   toggleFooterVisible,
   toggleHeaderVisible,
 } from "../store";
-import { useDispatch } from "react-redux";
+import api from "../component/axios";
 import CircularProgress from "../component/CircularProgress";
-
-const SAMPLE_VOCA = ["선택지1", "선택지2", "선택지3", "선택지4"];
+import scss from "../styles/scss/LevelTest.module.scss";
+import * as colors from "../component/colorConstants";
 
 const Line = styled.div`
   width: 100%;
@@ -28,10 +25,10 @@ const SuggestedVoca = styled.p`
   font-size: 3.1rem;
   line-height: 0.7;
 `;
+
 const Question = styled.p`
   color: ${colors.dark5Color};
   font-weight: bold;
-  /* font-size: 1.1rem; */
 `;
 
 const CurvedLine = styled.div`
@@ -50,12 +47,11 @@ const SelectButton = styled.button`
   border-radius: 15px;
   box-shadow: 0px 0px 4px ${colors.dark1Color};
   width: 300px;
-  padding: 8px 0px 8px 0px;
+  padding: 8px 0px;
   text-align: center;
   margin: 10px;
   font-size: 1.3rem;
   cursor: pointer;
-
   transition: 0.2s;
 
   &:disabled {
@@ -70,39 +66,85 @@ const LevelTest = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  let counter = useSelector((state) => {
-    return state.levelTestProgressCounter;
-  });
-  const footerVisible = useSelector((state) => state.footerIsVisible.visible);
-  const headerVisible = useSelector((state) => state.headerIsVisible.visible);
+  const [quizzes, setQuizzes] = useState([]);
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [answers, setAnswers] = useState([]);
+
+  const counter = useSelector((state) => state.levelTestProgressCounter);
+
+  const setUserInfo = (userInfo) => {
+    localStorage.setItem(
+      "userInfo",
+      JSON.stringify({
+        username: userInfo.username,
+        views: userInfo.views,
+        vocaLevel: userInfo.vocabularyLevel,
+      })
+    );
+  };
 
   useEffect(() => {
-    let delayTimer;
-
-    if (counter.cnt === 5) {
-      delayTimer = setTimeout(() => {
-        dispatch(initializeCnt());
-        dispatch(toggleFooterVisible(true));
-        dispatch(toggleHeaderVisible(true));
-      }, 1000);
-    }
-
-    return () => {
-      clearTimeout(delayTimer);
+    const fetchQuizzes = async () => {
+      try {
+        const res = await api.get("/quiz/several-quiz");
+        setQuizzes(res.data);
+        dispatch(toggleFooterVisible(false));
+        dispatch(toggleHeaderVisible(false));
+      } catch (e) {
+        console.error("퀴즈 로딩 실패:", e);
+      }
     };
-  }, [counter, dispatch]);
+    fetchQuizzes();
+  }, [dispatch]);
 
-  useEffect(() => {
-    if (counter.cnt === 0 && footerVisible && headerVisible) {
-      navigate("/main", { replace: true });
+  const handleSelect = async (optionIndex) => {
+    const currentQuiz = quizzes[currentIdx];
+    const updatedAnswers = [
+      ...answers,
+      { quizId: currentQuiz.quizId, selectValue: optionIndex },
+    ];
+    setAnswers(updatedAnswers);
+    console.log(answers);
+
+    if (currentIdx === quizzes.length - 1) {
+      dispatch(toggleFooterVisible(true));
+      dispatch(toggleHeaderVisible(true));
+      dispatch(initializeCnt());
+
+      try {
+        const grading = await api.post("/quiz-result/grading", {
+          quizIdAndSelectValueList: updatedAnswers,
+        });
+        console.log(grading.data);
+
+        const userInfoRes = await api.get("/app-user/users");
+        setUserInfo(userInfoRes.data);
+
+        navigate("/main", { replace: true });
+      } catch (e) {
+        console.error("채점 실패:", e);
+      }
+    } else {
+      dispatch(addCnt());
+      setCurrentIdx((prev) => prev + 1);
     }
-  }, [counter.cnt, footerVisible, headerVisible, navigate]);
+  };
+
+  if (quizzes.length === 0) return <div>Loading...</div>;
+
+  const current = quizzes[currentIdx];
+  const options = [
+    current.optionOne,
+    current.optionTwo,
+    current.optionThree,
+    current.optionFore,
+  ];
 
   return (
     <div className={scss.wrapper}>
       <div className={scss.indicatorFlexBox}>
         <div className={scss.textBox}>
-          <SuggestedVoca>단어</SuggestedVoca>
+          <SuggestedVoca>{current.question}</SuggestedVoca>
           <Line />
           <Question>유사한 뜻이 아닌 단어는?</Question>
         </div>
@@ -110,13 +152,13 @@ const LevelTest = () => {
       </div>
       <CurvedLine />
       <div className={scss.selectionWrapper}>
-        {SAMPLE_VOCA.map((label, i) => (
+        {options.map((option, idx) => (
           <SelectButton
-            key={i}
-            disabled={counter.cnt >= 5}
-            onClick={() => dispatch(addCnt())}
+            key={idx}
+            disabled={answers.length >= quizzes.length}
+            onClick={() => handleSelect(idx + 1)}
           >
-            {label}
+            {option}
           </SelectButton>
         ))}
       </div>
