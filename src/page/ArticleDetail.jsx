@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import scss from "../styles/scss/ArticleDetail.module.scss";
 import styled from "styled-components";
 import {
+  blueColor,
   dark0Color,
   dark1Color,
   dark2Color,
@@ -12,12 +13,12 @@ import {
 import { ReactComponent as ViewsIcon } from "../svg/views.svg";
 import { ReactComponent as BookMarkIcon } from "../svg/Bookmark.svg";
 
-import { DUMMY_DATA } from "../utils/DUMMY_DATA";
 import FloatedButton from "../component/FloatedButton";
 import BookmarkToggle from "../component/BookmarkToggle";
 import AIModal from "../component/AIModal";
 import { HighlightedArticle } from "../component/HighlightedArticle";
-import KeywordModal from "../component/KeywordModal";
+import api from "../component/axios";
+import extractAuthorName from "../utils/extractAuthorName";
 
 const Line = styled.div`
   background-color: ${dark0Color};
@@ -43,6 +44,15 @@ const ArticleTitle = styled.p`
   word-break: keep-all;
 `;
 
+const StyledBookMarkIcon = styled(BookMarkIcon)`
+  path {
+    fill: ${(props) => (props.active ? blueColor : dark1Color)};
+  }
+`;
+const StyledBookMarkText = styled.span`
+  color: ${(props) => (props.active ? blueColor : dark1Color)};
+`;
+
 const CommentAreaLabel = styled.label`
   color: ${dark3Color};
   font-weight: 600;
@@ -61,73 +71,117 @@ const CommentArea = styled.textarea`
 
 const Article = () => {
   const { uuid } = useParams();
+  const [article, setArticle] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const res = await api.get(`/news/reading/${uuid}`);
+        setArticle(res.data);
+      } catch (e) {
+        console.error("Article not found", e);
+      }
+    };
+    fetchArticle();
+  }, [uuid]);
+
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const res = await api.get(`/news/reading/${uuid}`);
+        setArticle(res.data);
+      } catch (e) {
+        console.error("Article not found", e);
+      }
+    };
+
+    const fetchBookmarkStatus = async () => {
+      try {
+        const res = await api.get(`/news/check-bookmark/${uuid}`);
+        setIsBookmarked(res.data === true); // 서버가 true/false 반환한다고 가정
+      } catch (e) {
+        console.error("Bookmark status fetch error", e);
+      }
+    };
+
+    fetchArticle();
+    fetchBookmarkStatus();
+  }, [uuid]);
+
+  // 나중에 기사 가져올 동안 보여줄 로딩창
+  if (!article) return <div>Loading...</div>;
 
   // 받아온 데이터 날짜 포맷팅
-  const isoString = DUMMY_DATA.createdAt;
+  const isoString = article.createdAt;
   const date = new Date(isoString);
-  const formatted = `${date.getFullYear()}.${String(
+  const formattedDate = `${date.getFullYear()}.${String(
     date.getMonth() + 1
   ).padStart(2, "0")}.${String(date.getDate()).padStart(2, "0")}`;
 
   // 기사 벽돌 문장 포맷팅
-  const formattedArticle = DUMMY_DATA.content.replace(
-    /다\.(?=\s|$)/g,
-    "다.\n\n"
-  );
+  const formattedArticle = article.content
+    .replace(/\\n+/g, " ")
+    .replace(/다\.(?=\s|$)/g, "다.\n\n");
 
-  useEffect(() => {
-    // uuid 기반으로 특정 article 데이터 요청하는 코드 필요
-    // const fetchArticle = async () => {
-    //   try {
-    //     const res = await axios.get(`/api/articles/${uuid}`);
-    //     setArticle(res.data);
-    //   } catch (e) {
-    //     console.error("Article not found", e);
-    //   }
-    // };
-    // fetchArticle();
-  }, [uuid]);
-
-  // 나중에 기사 가져올 동안 보여줄 로딩창
-  if (!DUMMY_DATA) return <div>Loading...</div>;
+  const handleToggleBookmark = async () => {
+    try {
+      if (isBookmarked) {
+        // 북마크 되어있으면 삭제
+        await api.delete("/app-user/bookmark", { data: { uuid } });
+      } else {
+        // 북마크 안 되어있으면 등록
+        await api.post("/app-user/bookmark", { uuid });
+      }
+      setIsBookmarked((prev) => !prev); // 상태 반전
+    } catch (e) {
+      console.error("북마크 토글 실패:", e);
+    }
+  };
 
   return (
     <div className={scss.wrapper}>
       <div className={scss.scrollWrapper}>
         <header className={scss.headerWrapper}>
           <div className={scss.tagWrapper}>
-            {DUMMY_DATA.domains.map((props, i) => (
+            {article.domains.map((props, i) => (
               <Tag>{props.domain}</Tag>
             ))}
           </div>
-          <ArticleTitle>{DUMMY_DATA.title}</ArticleTitle>
+          <ArticleTitle>{article.title}</ArticleTitle>
         </header>
         <nav className={scss.navWrapper}>
           <Line />
           <div className={scss.additionalInfoWrapper}>
             <div className={scss.leftMeta}>
-              <span>{DUMMY_DATA.author}&nbsp;기자&nbsp;</span>
-              <span>{formatted}</span>
+              <span>{extractAuthorName(article.author)}&nbsp;기자&nbsp;</span>
+              <span>{formattedDate}</span>
             </div>
             <div className={scss.rightMeta}>
               <ViewsIcon />
-              <span>{DUMMY_DATA.views}</span>
+              <span>{article.views}</span>
             </div>
           </div>
         </nav>
         <main className={scss.contentWrapper}>
-          <img src={DUMMY_DATA.thumbnailUrl} alt="썸네일" />
+          {article.thumbnailUrl ? (
+            <img src={article.thumbnailUrl} alt="썸네일" />
+          ) : null}
           <HighlightedArticle
             text={formattedArticle}
-            keyword_list={DUMMY_DATA.words}
+            keyword_list={article.words}
           />
         </main>
-        <div className={scss.bookMarkBtnWrapper}>
+        <div
+          className={scss.bookMarkBtnWrapper}
+          onClick={() => handleToggleBookmark()}
+        >
           <div className={scss.bookMarkBtn}>
-            <BookMarkIcon />
-            <BookmarkToggle />
-            <span>북마크</span>
+            <StyledBookMarkIcon active={isBookmarked} />
+            <StyledBookMarkText active={isBookmarked}>
+              북마크
+            </StyledBookMarkText>
           </div>
         </div>
         <Line />

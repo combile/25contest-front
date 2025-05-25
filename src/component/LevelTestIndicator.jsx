@@ -42,9 +42,7 @@ const GoToLevelTest = styled.p`
   }
 `;
 
-const userLevel = "LOW";
-
-const LevelTestIndicator = () => {
+const LevelTestIndicator = ({ vocaLevel }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const goToLevelTest = () => {
@@ -53,7 +51,7 @@ const LevelTestIndicator = () => {
 
   return (
     <CircleIndicator>
-      <Level>{userLevel}</Level>
+      <Level>{vocaLevel}</Level>
       <Line />
       <GoToLevelTest
         onClick={() => {

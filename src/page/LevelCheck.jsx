@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import scss from "../styles/scss/LevelCheck.module.scss";
 import styled from "styled-components";
 import * as colors from "../component/colorConstants.js";
 import LockedLevelTestIndicator from "../component/LockedLevelTestIndicator.jsx";
 import LevelTestIndicator from "../component/LevelTestIndicator.jsx";
+import { useSelector } from "react-redux";
 
 // TODO
 // DUMMY_USER.js 를 utils 폴더에 만들어서 그거에 맞게 다시 바인딩 해놓기
@@ -14,15 +15,28 @@ const BlueText = styled.span`
 `;
 
 const LevelCheck = () => {
-  const username = "아무개";
-  const [testAvailability, setTestAvailability] = useState(true);
+  const [testAvailability, setTestAvailability] = useState(false);
+
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+  useEffect(() => {
+    if (userInfo.views >= 5) {
+      setTestAvailability(true);
+    } else {
+      setTestAvailability(false);
+    }
+  }, []);
 
   return (
     <main className={scss.wrapper}>
       <div className={scss.textBox}>
-        <BlueText>{username}</BlueText>님의 어휘 레벨은
+        <BlueText>{userInfo.username}</BlueText>님의 어휘 레벨은
       </div>
-      {testAvailability ? <LevelTestIndicator /> : <LockedLevelTestIndicator />}
+      {testAvailability ? (
+        <LevelTestIndicator vocaLevel={userInfo.vocaLevel} />
+      ) : (
+        <LockedLevelTestIndicator />
+      )}
     </main>
   );
 };

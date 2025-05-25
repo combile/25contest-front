@@ -7,14 +7,70 @@ import ContentsMain from "../page/ContentsMain";
 import UserValidate from "../routes/UserValidate"; // 경로 확인 필요
 
 const protectedRoutes = [
-  { path: "/level-check", element: <UserValidate><LevelCheck /></UserValidate> },
-  { path: "/level-test", element: <UserValidate><LevelTest /></UserValidate> },
-  // { path: "/articles/:uuid", element: <UserValidate><ArticleDetail /></UserValidate> }, // api 연결시 활용
-  { path: "/article", element: <UserValidate><ArticleDetail /></UserValidate> },
-  { path: "/dummy", element: <UserValidate><div>Dummy</div></UserValidate> },
-  { path: "/main", element: <UserValidate><ContentsMain /></UserValidate> },
-  { path: "/trend", element: <UserValidate><div>트렌트페이지</div></UserValidate> },
-  { path: "/bookmark", element: <UserValidate><div>북마크페이지</div></UserValidate> },
+  {
+    path: "/level-check",
+    element: (
+      <UserValidate>
+        <LevelCheck />
+      </UserValidate>
+    ),
+  },
+  {
+    path: "/level-test",
+    element: (
+      <UserValidate>
+        <LevelTest />
+      </UserValidate>
+    ),
+  },
+  {
+    path: "/article/:uuid",
+    element: (
+      <UserValidate>
+        <ArticleDetail />
+      </UserValidate>
+    ),
+  },
+  // {
+  //   path: "/article",
+  //   element: (
+  //     <UserValidate>
+  //       <ArticleDetail />
+  //     </UserValidate>
+  //   ),
+  // },
+  {
+    path: "/dummy",
+    element: (
+      <UserValidate>
+        <div>Dummy</div>
+      </UserValidate>
+    ),
+  },
+  {
+    path: "/main",
+    element: (
+      <UserValidate>
+        <ContentsMain />
+      </UserValidate>
+    ),
+  },
+  {
+    path: "/trend",
+    element: (
+      <UserValidate>
+        <div>트렌트페이지</div>
+      </UserValidate>
+    ),
+  },
+  {
+    path: "/bookmark",
+    element: (
+      <UserValidate>
+        <div>북마크페이지</div>
+      </UserValidate>
+    ),
+  },
 ];
 
 export default protectedRoutes;

@@ -79,7 +79,7 @@
     .bookMarkBtnWrapper {
       @include style.flexRowCenter;
       margin: {
-        top: 20px;
+        top: 40px;
         bottom: 40px;
       }
 
@@ -94,7 +94,6 @@
         span {
           font-size: 12px;
           font-weight: bold;
-          color: style.$dark2-color;
         }
       }
     }

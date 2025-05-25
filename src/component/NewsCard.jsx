@@ -71,9 +71,10 @@ const NewsCard = ({
   time,
   date,
   profileUrl,
+  onClick,
 }) => {
   return (
-    <div className={scss.cardWrapper}>
+    <div className={scss.cardWrapper} onClick={onClick}>
       <LeftColumn>
         <Title>{title}</Title>
         <Tags>

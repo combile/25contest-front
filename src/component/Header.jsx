@@ -6,6 +6,7 @@ import * as colors from "./colorConstants.js";
 
 import "../styles/styledComponents/GlobalStyle.jsx";
 import scss from "../styles/scss/Header.module.scss";
+import api from "./axios.js";
 
 const LogoText = styled.h1`
   width: 131px;
@@ -29,7 +30,7 @@ const SearchInput = styled.input`
 
   &::placeholder {
     color: ${colors.dark1Color};
-    font-family: 'SFProDisplayRegular';
+    font-family: "SFProDisplayRegular";
   }
 
   &:focus {
@@ -52,6 +53,15 @@ const Line = styled.div`
 `;
 
 export default function Header() {
+  // const handleLogout = async () => {
+  //   try {
+  //     const res = await api.post("/auth/logout");
+  //     console.log("Logout 성공:", res.data);
+  //   } catch (err) {
+  //     console.error("Logout 실패:", err.response?.data || err.message);
+  //   }
+  // };
+
   return (
     <div className={scss.wrapper}>
       <div className={scss.CenterSection}>

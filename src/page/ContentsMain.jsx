@@ -14,6 +14,7 @@ import NewsCard from "../component/NewsCard";
 import extractAuthorName from "../utils/extractAuthorName";
 
 import { getFormattedDate, formatDateTime } from "../utils/dateUtils";
+import { useNavigate } from "react-router-dom";
 
 const TextBanner = styled.div`
   font-family: "SFProDisplayBold";
@@ -45,6 +46,11 @@ const Line = styled.div`
 
 const ContentsMain = () => {
   const [newsList, setNewsList] = useState([]);
+  const navigate = useNavigate();
+
+  const handleClickNewsCard = (props) => {
+    navigate(`/article/${props}`);
+  };
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -54,7 +60,7 @@ const ContentsMain = () => {
             sort: "latest",
           },
         });
-        console.log("뉴스 불러오기 성공", res.data);
+        // console.log("뉴스 불러오기 성공", res.data);
         setNewsList(res.data);
       } catch (err) {
         console.error("뉴스 가져오기 실패", err.response?.data || err.message);
@@ -84,7 +90,7 @@ const ContentsMain = () => {
           </div>
           <Line />
 
-          {newsList.slice(0, 3).map((news) => {
+          {newsList.map((news) => {
             const { date, time } = formatDateTime(news.createdAt);
             return (
               <NewsCard
@@ -98,6 +104,7 @@ const ContentsMain = () => {
                 time={time}
                 source={extractAuthorName(news.author) || "__"}
                 profileUrl={news.thumbnailUrl || URL}
+                onClick={() => handleClickNewsCard(news.uuid)}
               />
             );
           })}
