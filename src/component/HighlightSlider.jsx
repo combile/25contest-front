@@ -10,6 +10,7 @@ import { URL } from "../utils/DUMMY_IMG_URL.js";
 
 import * as colors from "../component/colorConstants";
 import "../styles/styledComponents/GlobalStyle.jsx";
+import { useNavigate } from "react-router-dom";
 
 const SlideCard = styled.div`
   flex: 0 0 auto;
@@ -75,6 +76,12 @@ const Tag = styled.div`
 
 const HighlightSlider = () => {
   const [topViewed, setTopViewed] = useState([]);
+  const navigate = useNavigate();
+
+  const handleClickNewsCard = (props) => {
+    navigate(`/article/${props}`);
+  };
+
   const truncateTitle = (title) => {
     return title.length > 15 ? title.slice(0, 15) + "..." : title;
   };
@@ -86,6 +93,7 @@ const HighlightSlider = () => {
       "..."
     );
   };
+
   useEffect(() => {
     const fetchTopNews = async () => {
       try {
@@ -116,21 +124,24 @@ const HighlightSlider = () => {
 
   return (
     <div className={scss.sliderWrapper}>
-      {topViewed.map((item) => {
-        const { date, time } = formatDateTime(item.createdAt);
+      {topViewed.map((news) => {
+        const { date, time } = formatDateTime(news.createdAt);
         return (
-          <SlideCard key={item.uuid}>
-            <ProfileImage src={item.thumbnailUrl || URL} alt="profile" />
-            <Title>{truncateTitle(item.title)}</Title>
+          <SlideCard
+            key={news.uuid}
+            onClick={() => handleClickNewsCard(news.uuid)}
+          >
+            <ProfileImage src={news.thumbnailUrl || URL} alt="profile" />
+            <Title>{truncateTitle(news.title)}</Title>
             <Source>
-              {extractAuthorName(item.author)} · {date}
+              {extractAuthorName(news.author)} · {date}
               <br />
               {time}
             </Source>
-            <Description>{truncateContent(item.content)}</Description>
+            <Description>{truncateContent(news.content)}</Description>
             <TagRow>
-              <Tag>{item.domains?.[0]?.domain || "시사"}</Tag>
-              <Tag>{item.domains?.[1]?.domain || "기타"}</Tag>
+              <Tag>{news.domains?.[0]?.domain || "시사"}</Tag>
+              <Tag>{news.domains?.[1]?.domain || "기타"}</Tag>
             </TagRow>
           </SlideCard>
         );

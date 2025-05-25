@@ -5,6 +5,7 @@ import LevelCheck from "../page/LevelCheck";
 import LevelTest from "../page/LevelTest";
 import ContentsMain from "../page/ContentsMain";
 import UserValidate from "../routes/UserValidate"; // 경로 확인 필요
+import Test from "../page/Test";
 
 const protectedRoutes = [
   {
@@ -68,6 +69,14 @@ const protectedRoutes = [
     element: (
       <UserValidate>
         <div>북마크페이지</div>
+      </UserValidate>
+    ),
+  },
+  {
+    path: "/comment-test/:uuid",
+    element: (
+      <UserValidate>
+        <Test />
       </UserValidate>
     ),
   },

@@ -69,9 +69,24 @@ const CommentArea = styled.textarea`
   padding: 10px 15px 10px 15px;
 `;
 
+const CommentSubmitButton = styled.button`
+  position: absolute;
+  top: 30px;
+  right: 8px;
+
+  background-color: ${blueColor};
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 3px 8px;
+  font-weight: bold;
+  cursor: pointer;
+`;
+
 const Article = () => {
   const { uuid } = useParams();
   const [article, setArticle] = useState();
+  const [comment, setComment] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -125,6 +140,22 @@ const Article = () => {
     }
   };
 
+  const handleSubmitComment = async (e) => {
+    e.preventDefault();
+    if (!comment.trim()) return;
+
+    try {
+      await api.post(`/comment/comments/${uuid}`, {
+        comment: comment.trim(),
+      });
+      alert("댓글이 등록되었습니다!");
+      setComment(""); // 등록 후 초기화
+    } catch (err) {
+      console.error("댓글 등록 실패", err);
+      alert("댓글 등록에 실패했습니다.");
+    }
+  };
+
   return (
     <div className={scss.wrapper}>
       <div className={scss.scrollWrapper}>
@@ -172,15 +203,26 @@ const Article = () => {
         <Line />
 
         <div className={scss.commentWrapper}>
-          <div className={scss.commentContainer}>
+          <form
+            className={scss.commentContainer}
+            onSubmit={handleSubmitComment}
+          >
             <CommentAreaLabel htmlFor="comment">코멘트 쓰기</CommentAreaLabel>
-            <CommentArea id="comment" placeholder="코멘트를 입력해주세요" />
-          </div>
+            <CommentArea
+              id="comment"
+              placeholder="코멘트를 입력해주세요"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <CommentSubmitButton type="submit">작성</CommentSubmitButton>
+          </form>
         </div>
       </div>
 
       <FloatedButton onClick={() => setIsModalOpen(true)} />
-      {isModalOpen && <AIModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <AIModal onClose={() => setIsModalOpen(false)} uuid={uuid} />
+      )}
     </div>
   );
 };
