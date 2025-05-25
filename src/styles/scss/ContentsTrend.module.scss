@@ -1,0 +1,41 @@
+@use "/src/styles" as style;
+
+@font-face {
+  font-family: "SFProDisplayBold";
+  src: url("../fonts/sf-pro-display-bold.woff2") format("truetype");
+}
+
+@font-face {
+  font-family: "SFProDisplayLight";
+  src: url("../fonts/sf-pro-display-light.woff2") format("truetype");
+}
+.wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.wrapper {
+  @include style.flexColCenter;
+  padding-top: 100px;
+}
+
+.contentWrapper {
+  @include style.flexColCenter;
+}
+
+.SectionTitle {
+  @include style.flexAlignCenter;
+  font-family: "SFProDisplayBold";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 36px;
+  color: style.$dark4-color;
+  margin: 10px 0 -12px;
+  gap: 3px;
+}
+
+.DateText {
+  font-size: 12px;
+  font-family: "SFProDisplayLight";
+  color: style.$dark3-color;
+  margin: -15px 0 15px;
+}
