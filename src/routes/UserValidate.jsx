@@ -8,7 +8,6 @@ import api from "../component/axios";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 
 function UserValidate({ children }) {
   const [isValidToken, setIsValidToken] = useState(null);
