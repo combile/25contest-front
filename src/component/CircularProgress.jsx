@@ -46,7 +46,7 @@ const Symbol = styled.div`
 
 const CircularProgress = () => {
   const cnt = useSelector((state) => state.levelTestProgressCounter.cnt);
-  const max = 5;
+  const max = 10;
 
   const progress = Math.min(cnt / max, 1);
   const dashOffset = CIRCUMFERENCE * (1 - progress);

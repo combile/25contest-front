@@ -5,7 +5,9 @@ import LevelCheck from "../page/LevelCheck";
 import LevelTest from "../page/LevelTest";
 import ContentsMain from "../page/ContentsMain";
 import ContentsBookmark from "../page/ContentsBookmark";
+import ContentsTrend from "../page/ContentsTrend";
 import UserValidate from "../routes/UserValidate"; // 경로 확인 필요
+import Test from "../page/Test";
 
 const protectedRoutes = [
   {
@@ -60,7 +62,7 @@ const protectedRoutes = [
     path: "/trend",
     element: (
       <UserValidate>
-        <div>트렌트페이지</div>
+        <ContentsTrend />
       </UserValidate>
     ),
   },
@@ -69,6 +71,14 @@ const protectedRoutes = [
     element: (
       <UserValidate>
         <ContentsBookmark />
+      </UserValidate>
+    ),
+  },
+  {
+    path: "/comment-test/:uuid",
+    element: (
+      <UserValidate>
+        <Test />
       </UserValidate>
     ),
   },

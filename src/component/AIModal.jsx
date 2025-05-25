@@ -9,6 +9,7 @@ import {
   redColor,
   whiteColor,
 } from "../component/colorConstants";
+import api from "./axios";
 
 const SlideWrapper = styled.div`
   display: flex;
@@ -25,6 +26,7 @@ const SlideContent = styled.div`
   height: 400px;
   width: 100%;
   padding: 20px 20px;
+  white-space: pre-line;
 `;
 
 const Dash = styled.div`
@@ -86,25 +88,40 @@ const Line = styled.div`
   margin: 5px 0px;
 `;
 
-const SlidingModal = ({ uuid, onClose }) => {
+const AIModal = ({ uuid, onClose }) => {
   const [index, setIndex] = useState(0);
   const [summary, setSummary] = useState(null);
   const [evaluation, setEvaluation] = useState(null);
   const startX = useRef(0);
   const deltaX = useRef(0);
 
-  // 나중에 API 연결시 사용
-  // useEffect(() => {
-  //   axios
-  //     .get(`/api/summary/summarys/${uuid}`)
-  //     .then((res) => setSummary(res.data))
-  //     .catch((err) => console.error("Summary fetch error", err));
+  const formattingText = (text) => {
+    return text.replace(/\\n+/g, " ").replace(/다\.(?=\s|$)/g, "다.\n\n");
+  };
 
-  //   axios
-  //     .get(`/api/pnevaluation/pnevaluations/${uuid}`)
-  //     .then((res) => setEvaluation(res.data))
-  //     .catch((err) => console.error("PN Evaluation fetch error", err));
-  // }, [uuid]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const summaryRes = await api.get(`/summary/summarys/${uuid}`);
+        setSummary(formattingText(summaryRes.data.summaryContent));
+      } catch (err) {
+        console.error("Summary fetch error", err);
+      }
+
+      try {
+        const evalRes = await api.get(`/pnevaluation/pnevaluations/${uuid}`);
+        setEvaluation({
+          positiveComment: formattingText(evalRes.data.positiveComment),
+          negativeComment: formattingText(evalRes.data.negativeComment),
+        });
+      } catch (err) {
+        console.error("PN Evaluation fetch error", err);
+      }
+    };
+    // summary: { summaryId: number, level: string, summaryContent: string }
+    // evaluation: { pnEvaluationId: number, positiveComment: string, negativeComment: string }
+    fetchData();
+  }, [uuid]);
 
   const handleTouchStart = (e) => {
     startX.current = e.touches[0].clientX;
@@ -146,7 +163,7 @@ const SlidingModal = ({ uuid, onClose }) => {
                 <Line />
               </div>
               <SlideContent>
-                {summary ? summary.summaryContent : "불러오는 중..."}
+                {summary ? summary : "불러오는 중..."}
               </SlideContent>
             </div>
             <div className={scss.slide}>
@@ -188,4 +205,4 @@ const SlidingModal = ({ uuid, onClose }) => {
   );
 };
 
-export default SlidingModal;
+export default AIModal;

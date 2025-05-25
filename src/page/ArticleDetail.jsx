@@ -69,45 +69,45 @@ const CommentArea = styled.textarea`
   padding: 10px 15px 10px 15px;
 `;
 
+const CommentSubmitButton = styled.button`
+  position: absolute;
+  top: 30px;
+  right: 8px;
+
+  background-color: ${blueColor};
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 3px 8px;
+  font-weight: bold;
+  cursor: pointer;
+`;
+
 const Article = () => {
   const { uuid } = useParams();
   const [article, setArticle] = useState();
+  const [comment, setComment] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
-    const fetchArticle = async () => {
+    const fetchAll = async () => {
       try {
         const res = await api.get(`/news/reading/${uuid}`);
         setArticle(res.data);
       } catch (e) {
         console.error("Article not found", e);
       }
-    };
-    fetchArticle();
-  }, [uuid]);
 
-  useEffect(() => {
-    const fetchArticle = async () => {
-      try {
-        const res = await api.get(`/news/reading/${uuid}`);
-        setArticle(res.data);
-      } catch (e) {
-        console.error("Article not found", e);
-      }
-    };
-
-    const fetchBookmarkStatus = async () => {
       try {
         const res = await api.get(`/news/check-bookmark/${uuid}`);
-        setIsBookmarked(res.data === true); // 서버가 true/false 반환한다고 가정
+        setIsBookmarked(res.data === true);
       } catch (e) {
         console.error("Bookmark status fetch error", e);
       }
     };
 
-    fetchArticle();
-    fetchBookmarkStatus();
+    fetchAll();
   }, [uuid]);
 
   // 나중에 기사 가져올 동안 보여줄 로딩창
@@ -137,6 +137,22 @@ const Article = () => {
       setIsBookmarked((prev) => !prev); // 상태 반전
     } catch (e) {
       console.error("북마크 토글 실패:", e);
+    }
+  };
+
+  const handleSubmitComment = async (e) => {
+    e.preventDefault();
+    if (!comment.trim()) return;
+
+    try {
+      await api.post(`/comment/comments/${uuid}`, {
+        comment: comment.trim(),
+      });
+      alert("댓글이 등록되었습니다!");
+      setComment(""); // 등록 후 초기화
+    } catch (err) {
+      console.error("댓글 등록 실패", err);
+      alert("댓글 등록에 실패했습니다.");
     }
   };
 
@@ -187,15 +203,26 @@ const Article = () => {
         <Line />
 
         <div className={scss.commentWrapper}>
-          <div className={scss.commentContainer}>
+          <form
+            className={scss.commentContainer}
+            onSubmit={handleSubmitComment}
+          >
             <CommentAreaLabel htmlFor="comment">코멘트 쓰기</CommentAreaLabel>
-            <CommentArea id="comment" placeholder="코멘트를 입력해주세요" />
-          </div>
+            <CommentArea
+              id="comment"
+              placeholder="코멘트를 입력해주세요"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <CommentSubmitButton type="submit">작성</CommentSubmitButton>
+          </form>
         </div>
       </div>
 
       <FloatedButton onClick={() => setIsModalOpen(true)} />
-      {isModalOpen && <AIModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <AIModal onClose={() => setIsModalOpen(false)} uuid={uuid} />
+      )}
     </div>
   );
 };
