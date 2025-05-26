@@ -26,8 +26,10 @@ const Label = styled.div`
 
 const TextWrapper = styled.div`
   width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
   background: ${whiteColor};
-  padding: 30px;
+  padding: 20px;
   border-radius: 20px;
   box-shadow: 0px 0px 5px ${dark0Color};
 `;

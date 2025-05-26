@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   addCnt,
   initializeCnt,
@@ -70,19 +70,6 @@ const LevelTest = () => {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState([]);
 
-  const counter = useSelector((state) => state.levelTestProgressCounter);
-
-  const setUserInfo = (userInfo) => {
-    localStorage.setItem(
-      "userInfo",
-      JSON.stringify({
-        username: userInfo.username,
-        views: userInfo.views,
-        vocaLevel: userInfo.vocabularyLevel,
-      })
-    );
-  };
-
   useEffect(() => {
     const fetchQuizzes = async () => {
       try {
@@ -109,16 +96,12 @@ const LevelTest = () => {
     if (currentIdx === quizzes.length - 1) {
       dispatch(toggleFooterVisible(true));
       dispatch(toggleHeaderVisible(true));
-      dispatch(initializeCnt());
 
       try {
         const grading = await api.post("/quiz-result/grading", {
           quizIdAndSelectValueList: updatedAnswers,
         });
         console.log(grading.data);
-
-        const userInfoRes = await api.get("/app-user/users");
-        setUserInfo(userInfoRes.data);
 
         navigate("/main", { replace: true });
       } catch (e) {

@@ -32,8 +32,8 @@ const Tag = styled.div`
   color: ${whiteColor};
   font-size: 10px;
   font-weight: bold;
-  line-height: 0.7;
-  padding: 6px 10px 3px 10px;
+  line-height: 1;
+  padding: 5px 10px 3px 10px;
 `;
 
 const ArticleTitle = styled.p`

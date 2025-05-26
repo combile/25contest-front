@@ -56,17 +56,6 @@ const AuthPage = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
-  const setUserInfo = (userInfo) => {
-    localStorage.setItem(
-      "userInfo",
-      JSON.stringify({
-        username: userInfo.username,
-        views: userInfo.views,
-        vocaLevel: userInfo.vocabularyLevel,
-      })
-    );
-  };
-
   const handleLogin = async (e) => {
     e.preventDefault();
     setEmailError("");
@@ -84,9 +73,6 @@ const AuthPage = () => {
         localStorage.setItem("accessToken", accessToken);
 
         try {
-          const userInfoRes = await api.get("/app-user/users");
-          setUserInfo(userInfoRes.data);
-
           // alert('로그인 성공!');
           navigate("/main");
         } catch (userErr) {
