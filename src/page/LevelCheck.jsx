@@ -4,28 +4,34 @@ import styled from "styled-components";
 import * as colors from "../component/colorConstants.js";
 import LockedLevelTestIndicator from "../component/LockedLevelTestIndicator.jsx";
 import LevelTestIndicator from "../component/LevelTestIndicator.jsx";
-import { useSelector } from "react-redux";
-
-// TODO
-// DUMMY_USER.js 를 utils 폴더에 만들어서 그거에 맞게 다시 바인딩 해놓기
-// ArticleDetail.jsx 에 AI 관련 기능 추가 구현하기 (플로팅 버튼, 모달)
+import api from "../component/axios.js";
 
 const BlueText = styled.span`
   color: ${colors.blueColor};
 `;
 
 const LevelCheck = () => {
+  const [userInfo, setUserInfo] = useState(null);
   const [testAvailability, setTestAvailability] = useState(false);
 
-  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
   useEffect(() => {
-    if (userInfo.views >= 5) {
-      setTestAvailability(true);
-    } else {
-      setTestAvailability(false);
-    }
+    const fetchUserInfo = async () => {
+      try {
+        const res = await api.get("/app-user/users");
+        const user = res.data;
+
+        // 상태 반영
+        setUserInfo(user);
+        setTestAvailability(user.views >= 5);
+      } catch (e) {
+        console.error("유저 정보 로딩 실패", e);
+      }
+    };
+
+    fetchUserInfo();
   }, []);
+
+  if (!userInfo) return <div>Loading...</div>;
 
   return (
     <main className={scss.wrapper}>
@@ -33,7 +39,7 @@ const LevelCheck = () => {
         <BlueText>{userInfo.username}</BlueText>님의 어휘 레벨은
       </div>
       {testAvailability ? (
-        <LevelTestIndicator vocaLevel={userInfo.vocaLevel} />
+        <LevelTestIndicator vocaLevel={userInfo.vocabularyLevel} />
       ) : (
         <LockedLevelTestIndicator />
       )}
