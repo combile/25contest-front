@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { ReactComponent as Search } from "../svg/search.svg";
-
 import * as colors from "./colorConstants.js";
-
 import "../styles/styledComponents/GlobalStyle.jsx";
 import scss from "../styles/scss/Header.module.scss";
-import api from "./axios.js";
 
 const LogoText = styled.h1`
   width: 131px;
@@ -41,6 +39,7 @@ const SearchInput = styled.input`
 const SearchIcon = styled(Search)`
   width: 16px;
   height: 16px;
+  cursor: pointer;
 `;
 
 const Line = styled.div`
@@ -53,22 +52,26 @@ const Line = styled.div`
 `;
 
 export default function Header() {
-  // const handleLogout = async () => {
-  //   try {
-  //     const res = await api.post("/auth/logout");
-  //     console.log("Logout 성공:", res.data);
-  //   } catch (err) {
-  //     console.error("Logout 실패:", err.response?.data || err.message);
-  //   }
-  // };
+  const navigate = useNavigate();
+  const [keyword, setKeyword] = useState("");
+
+  const handleClickSearch = () => {
+    navigate("/search");
+  };
 
   return (
     <div className={scss.wrapper}>
       <div className={scss.CenterSection}>
         <LogoText>NewsFit</LogoText>
         <div className={scss.SearchContainer}>
-          <SearchInput placeholder="찾으시는 뉴스가 있으신가요?" />
-          <SearchIcon />
+          <SearchInput
+            placeholder="찾으시는 뉴스가 있으신가요?"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onFocus={handleClickSearch}
+            readOnly
+          />
+          <SearchIcon onClick={handleClickSearch} />
         </div>
       </div>
       <Line />
