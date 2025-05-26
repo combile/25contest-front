@@ -9,6 +9,7 @@ import extractAuthorName from "../utils/extractAuthorName";
 import { URL } from "../utils/DUMMY_IMG_URL";
 import * as colors from "../component/colorConstants";
 import { ReactComponent as SearchIcon } from "../svg/search.svg";
+import { useNavigate } from "react-router-dom";
 
 const Title = styled.h2`
   font-size: 16px;
@@ -53,6 +54,8 @@ const BookmarkPage = () => {
   const [bookmarks, setBookmarks] = useState([]);
   const [username, setUsername] = useState("사용자");
   const [search, setSearch] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -123,7 +126,7 @@ const BookmarkPage = () => {
               time={time}
               source={extractAuthorName(news.author)}
               profileUrl={news.thumbnailUrl || URL}
-              onClick={() => (window.location.href = `/article/${news.uuid}`)}
+              onClick={() => navigate(`/article/${news.uuid}`)}
             />
           );
         })
