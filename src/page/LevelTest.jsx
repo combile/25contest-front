@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {
-  addCnt,
-  initializeCnt,
-  toggleFooterVisible,
-  toggleHeaderVisible,
-} from "../store";
+import { toggleFooterVisible, toggleHeaderVisible } from "../store";
 import api from "../component/axios";
 import CircularProgress from "../component/CircularProgress";
 import scss from "../styles/scss/LevelTest.module.scss";
@@ -23,7 +18,7 @@ const SuggestedVoca = styled.p`
   color: ${colors.blueColor};
   font-weight: bold;
   font-size: 3.1rem;
-  line-height: 0.7;
+  line-height: 1;
 `;
 
 const Question = styled.p`
@@ -108,7 +103,6 @@ const LevelTest = () => {
         console.error("채점 실패:", e);
       }
     } else {
-      dispatch(addCnt());
       setCurrentIdx((prev) => prev + 1);
     }
   };
