@@ -6,7 +6,8 @@ import LevelTest from "../page/LevelTest";
 import ContentsMain from "../page/ContentsMain";
 import ContentsBookmark from "../page/ContentsBookmark";
 import ContentsTrend from "../page/ContentsTrend";
-import UserValidate from "../routes/UserValidate"; // 경로 확인 필요
+import UserValidate from "../routes/UserValidate";
+import SearchPage from "../page/SearchPage";
 import Test from "../page/Test";
 
 const protectedRoutes = [
@@ -79,6 +80,14 @@ const protectedRoutes = [
     element: (
       <UserValidate>
         <Test />
+      </UserValidate>
+    ),
+  },
+  {
+    path: "/search",
+    element: (
+      <UserValidate>
+        <SearchPage />
       </UserValidate>
     ),
   },
